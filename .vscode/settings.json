@@ -2,6 +2,8 @@
   "files.associations": {
     "*.scss.liquid": "scss",
     "*.js.liquid": "javascript",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "istream": "cpp",
+    "ostream": "cpp"
   }
 }
