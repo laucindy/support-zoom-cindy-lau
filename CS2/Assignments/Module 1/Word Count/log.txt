@@ -1,0 +1,85 @@
+// Tests for Word Count/main.cpp
+
+// Test 1: Simple string
+Input: "hello this is a test"
+
+Output:
+Word count: 5
+Longest word length: 5
+Largest number of vowels in a word: 2
+
+
+// Test 2: Longer string and more vowels
+Input: "Euouae is the longest English word containing all vowels"
+
+Output:
+Word count: 9
+Longest word length: 10
+Largest number of vowels in a word: 6
+
+
+// Test 3: One word
+Input: "pneumonoultramicroscopicsilicovolcanoconiosis"
+
+Output:
+Word count: 1
+Longest word length: 45
+Largest number of vowels in a word: 20
+
+
+// Test 4: Press 'enter' immediately
+
+Input: (press enter)
+
+Output:
+Word count: 0
+Longest word length: 0
+Largest number of vowels in a word: 0
+
+
+// Test 5: Extra spaces between words
+Input: "hello  today is  Thursday"
+
+Output:
+Word count: 4
+Longest word length: 8
+Largest number of vowels in a word: 2
+
+
+// Test 6: Space after first word, and entered is pressed
+
+Input: "test "
+
+Output:
+Word count: 1
+Longest word length: 4
+Largest number of vowels in a word: 1
+
+
+// Test 7: Space before first word, and entered is pressed
+
+Input: " test"
+
+Output:
+Word count: 1
+Longest word length: 4
+Largest number of vowels in a word: 1
+
+
+// Test 8: Punctuation shouldn't be counted in word length
+
+Input: "What?? oh really?"
+
+Word count: 3
+Longest word length: 6
+Largest number of vowels in a word: 2
+
+
+// Test 9: Numbers shouldn't be counted as a word
+
+Input: "test 123456"
+
+Output:
+Word count: 1
+Longest word length: 4
+Largest number of vowels in a word: 1
