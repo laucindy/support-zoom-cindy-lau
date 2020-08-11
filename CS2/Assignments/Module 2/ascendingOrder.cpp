@@ -3,16 +3,16 @@
 using namespace std;
 
 bool isSorted(int array[], int numItems) {
-  bool isSorted = true;
+  int i = 1;
 
-  for (int i = 1; i < numItems; i++) {
+  while (i < numItems) {
     if (array[i - 1] > array[i]) {
-      isSorted = false;
-      break;
+      return false;
     }
+    i++;
   }
 
-  return isSorted;
+  return true;
 }
 
 int main() {
