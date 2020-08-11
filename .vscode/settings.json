@@ -4,6 +4,7 @@
     "*.js.liquid": "javascript",
     "iostream": "cpp",
     "istream": "cpp",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "iomanip": "cpp"
   }
 }
