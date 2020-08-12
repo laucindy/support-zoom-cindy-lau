@@ -28,7 +28,7 @@ int main() {
 //  printArray(dominoes, DOMINO_SET_SIZE, true);
   printDominoes(dominoes, DOMINO_SET_SIZE, true);
 
-  cout << "\nSorting by the number on the right hand side of the domino)... \n" << endl;
+  cout << "\nSorting by the number on the right hand side of the domino... \n" << endl;
   sort(dominoes, dominoes + DOMINO_SET_SIZE, sortByRightNumber);
   
   cout << "New sort order: \n" << endl;
