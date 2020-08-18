@@ -1,0 +1,1 @@
+    if (pointerArray[i] != NULL) {
