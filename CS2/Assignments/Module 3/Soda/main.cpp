@@ -10,7 +10,7 @@ struct soda
 // This function initializes, prints and then deletes sodaArray
 int main() {
   int ARRAY_SIZE = 3;
-  soda **sodaArray = new soda*[3];
+  soda **sodaArray = new soda*[ARRAY_SIZE];
   
   // initialize with values
   sodaArray[0] = new soda;
@@ -24,10 +24,6 @@ int main() {
   sodaArray[2] = new soda;
   sodaArray[2]->gramsOfSugar = 25;
   sodaArray[2]->gramsOfCarbonation = 9;
-
-  sodaArray[3] = new soda;
-  sodaArray[3]->gramsOfSugar = 52;
-  sodaArray[3]->gramsOfCarbonation = 27;
 
   // print values
   for (int i = 0; i < ARRAY_SIZE; i++) {
