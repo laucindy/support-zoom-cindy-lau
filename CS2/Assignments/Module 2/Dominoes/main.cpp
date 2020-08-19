@@ -1,22 +1,6 @@
-#include <iostream>
+#include "header.h"
 
 using namespace std;
-
-struct Domino {
-  int left;
-  int right;
-};
-
-void initializeDominoes(Domino (&dominoes)[28]);
-bool sortByRightNumber(Domino domino1, Domino domino2);
-
-void printArray(Domino dominoes[], int numDominoes, bool sortByLeft);
-void printDominoes(Domino dominoes[], int numDominoes, bool sortByLeft);
-void printDomino(Domino dominoes[], int startIndex, int endIndex);
-void printBorder(Domino dominoes[], int startIndex, int endIndex);
-void printFirstLine(Domino dominoes[], int startIndex, int endIndex);
-void printSecondLine(Domino dominoes[], int startIndex, int endIndex);
-void printThirdLine(Domino dominoes[], int startIndex, int endIndex);
 
 int main() {
   const int DOMINO_SET_SIZE = 28;
