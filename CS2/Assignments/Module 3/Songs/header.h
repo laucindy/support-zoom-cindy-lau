@@ -34,6 +34,5 @@ song** songsFromYear(song **songs, int size, int year, int* resultSize);
   @param songs - double pointer to array containing entire song list
   @param size - size of the songs array
   @param year - find songs from this year
-  @param resultSize - the size of the returned array from the songsFromYear function
 */
 void printSongsForYear(song **songs, int size, int year);
