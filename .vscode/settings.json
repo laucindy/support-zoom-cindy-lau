@@ -6,6 +6,6 @@
     "istream": "cpp",
     "ostream": "cpp",
     "iomanip": "cpp",
-    "new": "cpp"
+    "string": "cpp"
   }
 }
