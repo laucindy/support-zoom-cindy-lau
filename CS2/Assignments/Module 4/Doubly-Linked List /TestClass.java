@@ -1,70 +1,49 @@
 public class TestClass
 {
-    public static void main(String[] args)
-    {
-        // Here are some objects we can store in our lists...
-        
-        ReadThis r1 = new ReadThis("http://www.bustle.com/articles/" +
-                                   "63466-im-brianna-wu-and-im-risking-" +
-                                   "my-life-standing-up-to-gamergate");
-        
-        ReadThis r2 = new ReadThis("http://i.imgur.com/4NjBQzn.jpg");
-        
-        ReadThis r3 = new ReadThis("http://imgur.com/zhppgSx");
-        
-        ReadThis r4 = new ReadThis("http://gnuu.org/2009/09/18/writing-" +
-                                   "your-own-toy-compiler/all/1/");
-        
-        ReadThis r5 = new ReadThis("https://gigaom.com/2015/02/10/samsung-" +
-                                   "tvs-start-inserting-ads-into-your-movies/");
+  public static void main(String[] args)
+  {
+    String s1 = new String("String 1");
+    String s2 = new String("String 2");
+    String s3 = new String("String 3");
+    String s4 = new String("String 4");
+    String s5 = new String("String 5");
+    
+    ListNode node1 = new ListNode(s1);
+    ListNode node2 = new ListNode(s2);
+    ListNode node3 = new ListNode(s3);
+    ListNode node5 = new ListNode(s5);
+    ListNode node4 = new ListNode(s4, node3, node5);
 
-        
-        
-        ////
-        // We can manually create a linked list
-        // with two nodes like this:
+    ListNode listHead = node3;
 
-        ListNode listHead = new ListNode(r1, new ListNode(r2));
-        
-        ListNode.printNumNodes(); // <- best way to call a static method
-        listHead.printNumNodes(); // <- prints the same thing, but should avoid
-        listHead.next.printNumNodes(); // <- prints the same thing, but should avoid
-        
-        listHead.printListFromHere();
-        
-        
-        ////
-        // Now we can add nodes to the beginning, end, and middle:
-        
-        listHead = listHead.addNodeToBeginning(new ListNode(r3));
-        
-        listHead.addNodeToEnd(new ListNode(r4));
-        
-        listHead.addNodeAfterNode(new ListNode(r5), listHead);
-        
-        ListNode.printNumNodes();
-        listHead.printListFromHere();
-        
-        
-        ////
-        // Let's test removing nodes from the beginning, middle, and end:
-        
-        listHead = listHead.removeFirstNode();
-        listHead.printListFromHere();
-        
-        listHead = listHead.removeLastNode();
-        listHead.printListFromHere();
-        
-        listHead = listHead.removeNode(listHead.next);
-        listHead.printListFromHere();
-        
-        listHead = listHead.removeNode(listHead);
-        listHead.printListFromHere();
-        
-        listHead = listHead.removeNode(listHead);
-        System.out.println(listHead); // <- should be null!
-    }
+    listHead = listHead.addNodeToBeginning(node1);      // add node1 to the beginning
+    listHead.addNodeToEnd(node5);                       // add node5 to the end
+    listHead.addNodeAfterNode(node2, listHead);         // add node2 after node1
+    node3.addNodeAfterNode(node4, node3);               // add node4 after node3
+
+    // each string should now be printed in order
+  //  listHead.printListFromHere();
+  //  ListNode.printNumNodes();
+
+  //  testRemoveNodes(listHead);
+
+    System.out.println("Concatenated strings: " + node3.concatenate());
+
+    node2.reverse();
+
+    listHead.printListFromHere();
+  }
     
+  public static void testRemoveNodes(ListNode listHead) {
+    listHead = listHead.removeFirstNode();            // remove node1
+    listHead = listHead.removeLastNode();             // remove node5      
+    listHead = listHead.removeNode(listHead.next);    // remove node3
+    listHead = listHead.removeNode(listHead);         // remove node2
+
+    // one node remaining (node4)
+    listHead.printListFromHere();
     
-    
+    listHead = listHead.removeNode(listHead);       // remove node4
+    System.out.println("listHead is now: " + listHead); // <- should be null!
+  }
 }

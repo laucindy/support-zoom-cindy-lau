@@ -1,20 +1,26 @@
 public class ListNode
 {
-    public ReadThis data;    
+    public String data;
+    public ListNode prev;
     public ListNode next;
     
     public static int totalNodes = 0;
     
-    public ListNode(ReadThis newData)
+    public ListNode(String newData)
     {
-        this(newData, null);
+        this(newData, null, null);
     }
     
-    public ListNode(ReadThis newData, ListNode newNext)
+    public ListNode(String newData, ListNode newPrev, ListNode newNext)
     {
         data = newData;
+        prev = newPrev;
         next = newNext;
         totalNodes++;
+    }
+
+    public String toString() {
+      return "this.data: " + this.data;
     }
     
     
@@ -31,7 +37,9 @@ public class ListNode
         ListNode currNode = this;
         while (currNode != null)
         {
+            System.out.println("\n Previous node: " + currNode.prev + "\n");
             System.out.println("\t" + currNode.data);
+            System.out.println("\n Next node: " + currNode.next + "\n");
             currNode = currNode.next;
         }
         System.out.println("----------\nEnd List\n----------");
@@ -44,7 +52,10 @@ public class ListNode
     // start of the list
     public ListNode addNodeToBeginning(ListNode newNode)
     {
+        newNode.prev = null;
         newNode.next = this;
+
+        this.prev = newNode;
         return newNode;
     }
     
@@ -59,6 +70,10 @@ public class ListNode
         }
         
         currNode.next = newNode;
+
+        // set newNode prev and next
+        newNode.prev = currNode;
+        newNode.next = null;
     }
     
     
@@ -85,6 +100,9 @@ public class ListNode
         {
             newNode.next = currNode.next;
             currNode.next = newNode;
+
+            newNode.prev = currNode;
+            newNode.next.prev = newNode;
         }
     }
     
@@ -93,6 +111,9 @@ public class ListNode
     // the new head
     public ListNode removeFirstNode()
     {
+        // assign the prev node to null
+        this.next.prev = null;
+
         // We just need to cut out the head node,
         // making the second node in the list the head
         // (if there isn't one, that's ok, head will
@@ -131,6 +152,7 @@ public class ListNode
             // currNode is the last one in the list; now we can cut it out
             // using the previous node
             prevNode.next = null;
+            currNode.prev = null;
             
             // The head isn't changing in this case, so
             // just return this
@@ -148,6 +170,7 @@ public class ListNode
         // (which can be null)
         if (data.equals(toRemove.data))
         {
+          if (this.next != null) this.next.prev = null;
             return next;
         }
         
@@ -171,6 +194,7 @@ public class ListNode
             if (currNode.next != null)
             {
                 currNode.next = currNode.next.next;
+                currNode.next.prev = currNode;
             }
             
             // If we got this far, the head hasn't changed
@@ -197,5 +221,45 @@ public class ListNode
         }
         
         return length;
+    }
+
+    // Concatenate strings in the linked list, separated by a ", "
+    // Starts from the beginning of the list
+    public String concatenate() {
+      ListNode currNode = this;
+      String concatenatedString = "";
+
+      // check if we're at the beginning of the list
+      // if not, go to the beginning
+      while (currNode.prev != null) {
+        currNode = currNode.prev;
+      }
+
+      // get string for each node in the linked list,
+      // and add them to concatenatedString
+      while(currNode != null) {
+        concatenatedString += currNode.data;
+
+        if (currNode.next != null) {
+          concatenatedString += ", ";
+        }
+
+        currNode = currNode.next;
+      }
+
+      return concatenatedString;
+    }
+
+    // reverses the linked list in place, and returns the new head
+    public ListNode reverse() {
+      ListNode headNode = this;
+      ListNode currNode = this;
+      
+      while (currNode != null) {
+        System.out.println(currNode.data + "\n");
+        currNode = currNode.prev;
+      }
+      
+      return headNode;
     }
 }
