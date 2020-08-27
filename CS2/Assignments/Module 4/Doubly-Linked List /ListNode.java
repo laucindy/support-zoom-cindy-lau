@@ -18,15 +18,14 @@ public class ListNode
         next = newNext;
         totalNodes++;
     }
-
-    public String toString() {
-      return "this.data: " + this.data;
-    }
-    
     
     public static void printNumNodes()
     {
-        System.out.println(totalNodes + " have been created so far.");
+        System.out.println(totalNodes + " nodes have been created so far.");
+    }
+
+    public String toString() {
+      return this.data;
     }
     
     
@@ -37,9 +36,9 @@ public class ListNode
         ListNode currNode = this;
         while (currNode != null)
         {
-            System.out.println("\n Previous node: " + currNode.prev + "\n");
+          //  System.out.println("\tprev: " + currNode.prev);
             System.out.println("\t" + currNode.data);
-            System.out.println("\n Next node: " + currNode.next + "\n");
+          //  System.out.println("\tnext: " + currNode.next + "\n");
             currNode = currNode.next;
         }
         System.out.println("----------\nEnd List\n----------");
@@ -250,16 +249,19 @@ public class ListNode
       return concatenatedString;
     }
 
-    // reverses the linked list in place, and returns the new head
+    // reverses the linked list in place, and returns the new head node
     public ListNode reverse() {
-      ListNode headNode = this;
       ListNode currNode = this;
       
       while (currNode != null) {
-        System.out.println(currNode.data + "\n");
-        currNode = currNode.prev;
+        // switch prev and next values
+        ListNode temp = currNode.next;
+        currNode.next = currNode.prev;
+        currNode.prev = temp;
+
+        currNode = currNode.next;
       }
       
-      return headNode;
+      return this;
     }
 }
