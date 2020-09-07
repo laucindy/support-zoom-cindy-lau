@@ -16,7 +16,7 @@ public class Article {
   public Issue getIssueRef() { return reference; }
 
   public String toString() {
-    return author + ". " + title + ". " + reference.getJournalRef() + ", " + reference.getVolumeNum() + "(" + reference.getIssueNum() + "), " + reference.getYearPublished();
+    return author + ". " + title + ". " + reference.getJournalRef() + ", " + reference.getVolumeNum() + "(" + reference.getIssueNum() + "), " + reference.getYearPublished() + ".";
   }
 
   @Override
@@ -24,7 +24,7 @@ public class Article {
     if (obj == null) return false;
     if (obj == this) return true;
     if (!(obj instanceof Article)) return false;
-    
+
     Article o = (Article) obj;
     return (o.title == this.title) && (o.author == this.author);
   }
