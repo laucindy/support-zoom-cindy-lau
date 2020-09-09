@@ -48,8 +48,6 @@ public class TestClass {
     // ("This is a Yukon potato!", instead of "This is a potato!")
     Potato yukonPotato = new YukonPotato("Yukon potato", "golden brown", "Canada");
     yukonPotato.print();
-    yukonPotato.printVegetableStats();
-    System.out.println(yukonPotato.getName());
-    
+    yukonPotato.printVegetableStats();    
   }
 }
