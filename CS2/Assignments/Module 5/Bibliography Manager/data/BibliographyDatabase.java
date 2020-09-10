@@ -48,19 +48,35 @@ public class BibliographyDatabase {
 
   public void addIssue(Issue i) {
     Journal journalRef = i.getJournalRef();
-    journalRef.addIssue(i);
+    
+    int x = 0;
+    boolean addedIssue = false;
+
+    while ((x < getNumJournals()) && !addedIssue) {
+      Journal currentJournal = journals.get(x);
+
+      if (currentJournal.equals(journalRef)) {
+        currentJournal.addIssue(i);
+      }
+
+      x++;
+    }
   }
 
   public void removeIssue(Issue i) {
     Journal journalRef = i.getJournalRef();
 
-    for (int x = 0; x < getNumJournals(); x++) {
+    int x = 0;
+    boolean removedIssue = false;
+
+    while ((x < getNumJournals()) && !removedIssue) {
       Journal currentJournal = journals.get(x);
 
-      if (!currentJournal.equals(journalRef)) continue;
+      if (currentJournal.equals(journalRef)) {
+        currentJournal.removeIssue(i);
+      }
 
-      System.out.println("removing issue: " + i);
-      currentJournal.removeIssue(i);
+      x++;
     }
   }
 
@@ -70,21 +86,27 @@ public class BibliographyDatabase {
     Issue issueRef = a.getIssueRef();
     Journal journalRef = issueRef.getJournalRef();
 
-    outerloop:
-    for (int x = 0; x < getNumJournals(); x++) {
+    int x = 0;
+    boolean addedArticle = false;
+
+    while ((x < getNumJournals()) && !addedArticle) {
       Journal journal = getJournalAt(x);
 
-      if (!journal.equals(journalRef)) continue;
+      int y = 0;
+      if (journal.equals(journalRef)) {
+        while ((y < journal.getNumIssues()) && !addedArticle) {
+          Issue issue = journal.getIssueAt(y);
 
-      for (int y = 0; y < journal.getNumIssues(); y++) {
-        Issue issue = journal.getIssueAt(y);
+          if (issue.equals(issueRef)) {
+            issue.addArticle(a);
+            addedArticle = true;
+          }
 
-        if (issue.equals(issueRef)) {
-          issue.addArticle(a);
-          break outerloop;
+          y++;
         }
       }
 
+      x++;
     }
   }
 
@@ -92,26 +114,26 @@ public class BibliographyDatabase {
     Issue issueRef = a.getIssueRef();
     Journal journalRef = issueRef.getJournalRef();
 
-    outerloop:
-    for (int x = 0; x < getNumJournals(); x++) {
-      Journal currentJournal = getJournalAt(x);
+    int x = 0;
+    boolean removedArticle = false;
 
-      if (!currentJournal.equals(journalRef)) continue;
+    while ((x < getNumJournals()) && !removedArticle) {
+      Journal journal = getJournalAt(x);
 
-      for (int y = 0; y < currentJournal.getNumIssues(); y++) {
-        Issue issue = currentJournal.getIssueAt(y);
+      int y = 0;
+      if (journal.equals(journalRef)) {
+        while ((y < journal.getNumIssues()) && !removedArticle) {
+          Issue issue = journal.getIssueAt(y);
 
-        if (!issue.equals(issueRef)) continue;
-
-        for (int z = 0; z < issue.getNumArticles(); z++) {
-          Article article = issue.getArticleAt(z);
-
-          if (article.equals(a)) {
+          if (issue.equals(issueRef)) {
             issue.removeArticle(a);
-            break outerloop;
           }
+
+          y++;
         }
       }
+
+      x++;
     }
   }
 
@@ -146,7 +168,6 @@ public class BibliographyDatabase {
         Issue issue = journal.getIssueAt(j);
 
         if (issue.getYearPublished() == year) {
-
           for (int k = 0; k < issue.getNumArticles(); k++) {
             articlesFromYear.add(issue.getArticleAt(k));
           }
@@ -195,23 +216,24 @@ public class BibliographyDatabase {
 
     if (index > allIssues.size()) return;
 
-    for (int i = 0; i < getNumJournals(); i++) {
+    int i = 0;
+    while ((foundIssue == null) && (i < getNumJournals())) {
+      // loop through all journals to find the issue to add the new article to
       Journal journal = getJournalAt(i);
 
-      for (int j = 0; j < journal.getNumIssues(); j++) {
+      int j = 0;
+      while ((j < journal.getNumIssues()) && (foundIssue == null)) {
         Issue issue = journal.getIssueAt(j);
 
         if (issue == allIssues.get(index)) {
           foundIssue = issue;
-          break;
         }
+
+        j++;
       }
 
-      if (foundIssue != null) {
-        break;
-      }
+      i++;
     }
-
 
     if (foundIssue != null) {
       foundIssue.addArticle(newArticle);
@@ -313,9 +335,12 @@ public class BibliographyDatabase {
     return options;
   }
 
-  /** 
+  /**
    * Check whether the option selected is within range 
-   * */
+   * @param index - the selected index from the UI interface
+   * @param options - the list of options
+   * @return true if in range, false otherwise
+   */
   public boolean optionInRange(int index, Options options) {
     if (index > (options.getNumOptions() - 1)) {
       return false;
