@@ -59,15 +59,15 @@ public class BibliographyUI {
 
     input.close();
 
-    printJournals(db);
+  //  printJournals(db);
   }
 
   public static void main(String[] args) {
     BibliographyDatabase db = new BibliographyDatabase(Journal.getSampleJournals());
     BibliographyUI ui = new BibliographyUI(db);
 
-    ui.testRun();
-  //  ui.run();
+  //  ui.testRun();
+    ui.run();
   }
 
   /**
@@ -165,7 +165,7 @@ public class BibliographyUI {
    */
   void testRun() {
     testAddAndRemove();
-  //  testAddListOfJournals();
+    testAddListOfJournals();
   }
 
   /**
