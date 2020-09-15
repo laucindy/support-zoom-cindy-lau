@@ -22,7 +22,7 @@ public abstract class Pants implements Clothing {
   }
 
   private String getRandomColor() {
-    String[] colors = { "green", "blue", "brown", "black" };
+    String[] colors = { "maroon", "green", "blue", "brown", "black" };
     int randomIndex = ThreadLocalRandom.current().nextInt(0, colors.length);
 
     return colors[randomIndex];

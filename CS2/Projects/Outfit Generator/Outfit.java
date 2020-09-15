@@ -24,6 +24,6 @@ public class Outfit {
   public void setAccessory(Accessories accessory) { this.accessory = accessory; }
 
   public String toString() {
-    return "Recommended outfit: \n\t" + this.shirt + ", " + this.pants + ", " + this.outerwear + ", " + this.shoes + ", " + this.accessory;
+    return this.shirt + ", " + this.pants + ", " + this.outerwear + ", " + this.shoes + ", " + this.accessory;
   }
 }

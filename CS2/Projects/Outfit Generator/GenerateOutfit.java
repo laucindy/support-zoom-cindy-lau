@@ -6,11 +6,10 @@ import Accessories.*;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 
 public class GenerateOutfit {
+  // create new lists. Each subclass for each category is an item in the list
+
   public List<Shirts> shirtsList = new ArrayList<Shirts>(Arrays.asList(
     new ButtonUps(), new FlannelShirts(), new Tshirts(), new Sweaters()
   ));
@@ -31,15 +30,15 @@ public class GenerateOutfit {
     new Backpack(), new Clutch(), new EveningBag(), new Hat(), new HoboBag(), new Necklaces(), new Rings(), new Sunglasses(), new Watch()
   ));
 
-  private boolean showDebugMessage = true;
+  private boolean showDebugMessage = false;
 
+  public boolean showDebugMessage() { return showDebugMessage; }
 
-  public GenerateOutfit() {
-
-  }
-
-  public boolean getShowDebugMessage() { return showDebugMessage; }
-
+  /**
+   * Randomly generate a new outfit. If the outfit does not meet all of the requirements, then a completely
+   * new outfit will be regenerated
+   * @return - a outfit that matches all of the outfit rules (as described in the readme.md)
+   */
   public Outfit generateOutfit() {
     Outfit outfit = new Outfit();
 
@@ -51,266 +50,343 @@ public class GenerateOutfit {
       outfit.setShoes((Shoes) getRandomItem(shoesList));
       outfit.setAccessory((Accessories) getRandomItem(accessoriesList));
     } while (!isOutfitGood(outfit));
-
-
-
-    // get a random item from the Shirts class
-    /*Shirts shirt = (Shirts) checkItemIsGood(shirtsList, "isShirtGood", outfit);
-    outfit.setShirt(shirt);
-
-    Pants pants = (Pants) checkItemIsGood(pantsList, "isPantsGood", outfit);
-    outfit.setPants(pants);
-
-    Outerwear outerwear = (Outerwear) checkItemIsGood(outerwearList, "isOuterwearGood", outfit);
-    outfit.setOuterwear(outerwear);
-
-    Shoes shoes = (Shoes) checkItemIsGood(shoesList, "isShoesGood", outfit);
-    outfit.setShoes(shoes);
-
-    Accessories accessory = (Accessories) checkItemIsGood(accessoriesList, "isAccessoryGood", outfit);
-    outfit.setAccessory(accessory);*/
     
     return outfit;
   }
 
+  /**
+   * Checks if the outfit follows the outfit rules
+   * @param outfit - the outfit object
+   * @return - true if the outfit follows the rules, false otherwise
+   */
   public boolean isOutfitGood(Outfit outfit) {
+
+    // only 1 of shirt, pants, outerwear or shoes can be brightly colored and
+    // only 1 of shirt, pants or shoes can have a print (an outfit can have an item brightly colored and another with a print)
+    if (!checkOnlyOneItemIsBrightlyColored(outfit) || !checkOnlyOneItemHasPrint(outfit)) { return false; }
+
+    // avoid mixing brown and grey for shirts, pants and shoes
+    if (checkBrownAndGreyMixed(outfit)) { return false; }
+
     return (isShirtGood(outfit) && isPantsGood(outfit) && isOuterwearGood(outfit) && isShoesGood(outfit) && isAccessoryGood(outfit));
   }
 
- /**
-   * Check that the shirt follows outfit rules - we always assume that the shirt (being
-   * the first item picked), is good
-   * @param outfit - the current outfit (at this point, none of the items in this object are filled)
-   * @param selectedItem - the shirt, randomly picked from shirtsList
-   * @return - whether the shirt is good - this is currently always true
+  // OUTFIT BOOLEAN METHODS
+
+  /**
+   * Check if the shirt, pants and/or shoes contain brown and grey. If yes, then
+   * it breaks the outfit rules, as brown and grey shouldn't be mixed together in
+   * an outfit
+   * 
+   * @param outfit - the outfit object
+   * @return true if a shirt, pants and/or shoes are brown and grey. False
+   *         otherwise
+   */
+  private boolean checkBrownAndGreyMixed(Outfit outfit) {
+    Shirts shirt = outfit.getShirt();
+    Pants pants = outfit.getPants();
+    Shoes shoes = outfit.getShoes();
+
+    String colors = shirt.getColor() + ", " + pants.getColor() + ", " + shoes.getColor();
+
+    if (colors.contains("brown") && colors.contains("grey")) {
+      if (showDebugMessage()) {
+        System.out.println(
+            "Don't mix brown and grey clothes together. Shirt: " + shirt + ", pants: " + pants + ", shoes: " + shoes);
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Check that only 1 of either a shirt, pants, outerwear or shoes is brightly
+   * colored
+   * 
+   * @param outfit - the outfit object
+   * @return - true if only 1 item is brightly colored. False otherwise
+   */
+  private boolean checkOnlyOneItemIsBrightlyColored(Outfit outfit) {
+    Shirts shirt = outfit.getShirt();
+    Pants pants = outfit.getPants();
+    Outerwear outerwear = outfit.getOuterwear();
+    Shoes shoes = outfit.getShoes();
+
+    int brightlyColoredCount = (shirt.isBrightlyColored() ? 1 : 0) + (pants.isBrightlyColored() ? 1 : 0)
+        + (outerwear.isBrightlyColored() ? 1 : 0) + (shoes.isBrightlyColored() ? 1 : 0);
+
+    if (brightlyColoredCount > 1) {
+      if (showDebugMessage()) {
+        System.out.println("The shirt (" + shirt + "), pants (" + pants + ") or outerwear (" + outerwear
+            + ") is already brightly colored. We can only have 1 brightly colored item in our outfit. Let's regenerate our outfit");
+      }
+
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Check that only 1 of either a shirt, pants or shoes has a print/pattern
+   * 
+   * @param outfit - the outfit object
+   * @return - true if only 1 item has a print. False otherwise
+   */
+  private boolean checkOnlyOneItemHasPrint(Outfit outfit) {
+    Shirts shirt = outfit.getShirt();
+    Pants pants = outfit.getPants();
+    Shoes shoes = outfit.getShoes();
+
+    int printCount = (shirt.hasPrint() ? 1 : 0) + (pants.hasPrint() ? 1 : 0) + (shoes.hasPrint() ? 1 : 0);
+
+    if (printCount > 1) {
+      if (showDebugMessage()) {
+        System.out.println("2 or more of these items: " + shirt + ", " + pants + " or " + shoes
+            + " already have a print. Let's regenerate outfits");
+      }
+
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Checks if the shirt follows the outfit rules. Currently set to always return true
+   * @param outfit - the outfit object
+   * @return - true
    */
   public boolean isShirtGood(Outfit outfit) {
    return true;
   }
 
-  public boolean isShirtGood(Outfit outfit, Object selectedItem) {    
-    return true;
-  }
-
+  /**
+   * Checks if the pants paired with other items in the outfit follow the outfit rules.
+   * @param outfit - the outfit object
+   * @return - true if it follows the rules, false otherwise
+   */
   public boolean isPantsGood(Outfit outfit) {
-    return isPantsGood(outfit, outfit.getPants());
-  }
-
-  public boolean isPantsGood(Outfit outfit, Object selectedItem) {
-    Shirts shirt = outfit.getShirt();
-    Pants selectedPants = (Pants) selectedItem;
-
     // don't wear a long sleeve shirt with shorts
-    if (shirt.isLongSleeve() && selectedPants.isShorts()) {
-      if (getShowDebugMessage()) System.out.println("Don't pair " + selectedPants + " with a long sleeve shirt (" + shirt + ")");
-      return false;
-    }
-
-    // avoid mixing brown and grey for shirts, pants and shoes
-    if ((shirt.getColor() == "brown" && selectedPants.getColor() == "grey") || (shirt.getColor() == "grey" && selectedPants.getColor() == "brown")) {
-      if (getShowDebugMessage()) System.out.println("Don't mix a " + shirt + " shirt and " + selectedPants + "pants together");
-      return false;
-    }
-
-    // only 1 of shirt, pants, outerwear or shoes can be brightly colored
-    int brightlyColoredCount = shirt.isBrightlyColored() ? 1 : 0;
-    brightlyColoredCount += selectedPants.isBrightlyColored() ? 1 : 0;
-
-    if (brightlyColoredCount > 1) { 
-      if (getShowDebugMessage()) System.out.println(shirt + " is already brightly colored, get another pair of pants instead of: " + selectedPants);
-      return false; 
-    }
-
-    // only 1 of shirt pants or shoes can have a print
-    int printCount = shirt.hasPrint() ? 1 : 0;
-    printCount += selectedPants.hasPrint() ? 1 : 0;
-
-    if (printCount > 1) {
-      if (getShowDebugMessage()) System.out.println(shirt + " already has a print, get another pair of paints instead of: " + selectedPants);
-      return false;
-    }
+    if (checkLongSleeveAndShorts(outfit)) { return false; }
 
     return true;
   }
 
-  public boolean isOuterwearGood(Outfit outfit) {
-    return isOuterwearGood(outfit, outfit.getOuterwear());
-  }
-
-  public boolean isOuterwearGood(Outfit outfit, Object selectedItem) {
+  /**
+   * Check if the outfit consists of a long sleeve shirt and shorts. If true, then it
+   * breaks the outfit rules
+   * @param outfit - the outfit object
+   * @return - true if the outfit is a long sleeve shirt + shorts. False otherwise
+   */
+  private boolean checkLongSleeveAndShorts(Outfit outfit) {
     Shirts shirt = outfit.getShirt();
     Pants pants = outfit.getPants();
-    Outerwear selectedOuterwear = (Outerwear) selectedItem;
 
+    if (shirt.isLongSleeve() && pants.isShorts()) {
+      if (showDebugMessage()) {
+        System.out.println("Don't pair " + pants + " with a long sleeve shirt (" + shirt + ")");
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Check if the outerwear paired with other items meet the outfit rules
+   * @param outfit - the outfit object
+   * @return - true if the outfit meets the outfit rules, false otherwise
+   */
+  public boolean isOuterwearGood(Outfit outfit) {
     // if the shirt and pants are formal, then the outerwear should be as well
-    if (shirt.isFormal() && pants.isFormal() && !selectedOuterwear.isFormal()) {
-      if (getShowDebugMessage()) System.out.println(selectedOuterwear + " is not formal. It doesn't match " + shirt + " and " + pants);
-      return false;
-    }
-
-    // only 1 of shirt, pants, outerwear or shoes can be brightly colored
-    int brightlyColoredCount = (shirt.isBrightlyColored() || outfit.getPants().isBrightlyColored()) ? 1 : 0;
-    brightlyColoredCount += selectedOuterwear.isBrightlyColored() ? 1 : 0;
-
-    if (brightlyColoredCount > 1) { 
-      if (getShowDebugMessage()) System.out.println("The shirt (" + shirt + ") or pants (" + pants +") is already brightly colored, replace " + selectedOuterwear + " with another piece of outerwear");
-      return false; 
-    }
+    if (!checkFormalClothesFormalOuterwear(outfit)) { return false; }
 
     // don't wear a winter coat with shorts
-    if (selectedOuterwear.isForColdWeather() && pants.isShorts()) {
-      if (getShowDebugMessage()) System.out.println(selectedOuterwear + " shouldn't be worn with " + pants);
+    if (checkWinterOuterwearAndShorts(outfit)) { return false; }
+
+    return true;
+  }
+
+  /**
+   * Check if the shirt and pants are formal items. If they are, then the outerwear should be as well.
+   * @param outfit - the outfit object
+   * @return - true if the shirt, pants and outerwear are all formal
+   */
+  private boolean checkFormalClothesFormalOuterwear(Outfit outfit) {
+    Shirts shirt = outfit.getShirt();
+    Pants pants = outfit.getPants();
+    Outerwear outerwear = outfit.getOuterwear();
+
+    if (shirt.isFormal() && pants.isFormal() && !outerwear.isFormal()) {
+      if (showDebugMessage()) {
+        System.out.println(outerwear + " is not formal. It doesn't match " + shirt + " and " + pants);
+      }
+
       return false;
     }
 
     return true;
   }
 
+  /**
+   * Check if the outfit outerwear is for winter, and if the pants are shorts. If both are, then they
+   * are breaking the outfit rules
+   * @param outfit - the outfit object
+   * @return true if the outerwear = for winter, and if pants = shorts. False otherwise
+   */
+  private boolean checkWinterOuterwearAndShorts(Outfit outfit) {
+    Pants pants = outfit.getPants();
+    Outerwear outerwear = outfit.getOuterwear();
+
+    if (outerwear.isForColdWeather() && pants.isShorts()) {
+      if (showDebugMessage()) {
+        System.out.println(outerwear + " shouldn't be worn with " + pants);
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Check if the shoes paired with other items meet the outfit rules
+   * @param outfit - the outfit object
+   * @return - true if the outfit meets the outfit rules, false otherwise
+   */
   public boolean isShoesGood(Outfit outfit) {
-    return isShoesGood(outfit, outfit.getShoes());
-  }
-
-  public boolean isShoesGood(Outfit outfit, Object selectedItem) {
-    Shirts shirt = outfit.getShirt();
-    Pants pants = outfit.getPants();
-    Outerwear outerwear = outfit.getOuterwear();
-    Shoes selectedShoes = (Shoes) selectedItem;
-
-    // if the shirt, pants and outerwear are formal, then the shoes should be as well
-    if (shirt.isFormal() && pants.isFormal() && outerwear.isFormal() && !selectedShoes.isFormal()) {
-      if (getShowDebugMessage()) System.out.println(selectedShoes + " are not formal. It doesn't match " + shirt + ", " + pants + " and " + outerwear);
-      return false;
-    }
-
     // don't wear heels with shorts
-    if (selectedShoes.hasHeel() && pants.isShorts()) {
-      if (getShowDebugMessage()) System.out.println(selectedShoes + " has heels, so it is not compatible with " + pants);
-      return false;
-    }
-
-    // avoid mixing brown and grey for shirts, pants and shoes
-    if (((shirt.getColor() == "brown" || pants.getColor() == "brown") && selectedShoes.getColor() == "grey") || ((shirt.getColor() == "grey" || pants.getColor() == "grey") && selectedShoes.getColor() == "brown")) {
-      if (getShowDebugMessage()) System.out.println("Don't mix brown and grey clothes together. Shirt: " + shirt + ", pants: " + pants + ", current shoes: " + selectedShoes);
-      return false;
-    }
-
-    // only 1 of shirt, pants, outerwear or shoes can be brightly colored
-    int brightlyColoredCount = (shirt.isBrightlyColored() || pants.isBrightlyColored() || outfit.getOuterwear().isBrightlyColored()) ? 1 : 0;
-    brightlyColoredCount += selectedShoes.isBrightlyColored() ? 1 : 0;
-
-    if (brightlyColoredCount > 1) {
-      if (getShowDebugMessage()) System.out.println("The shirt (" + shirt + "), pants (" + pants +") or outerwear (" + outfit.getOuterwear()+ ") is already brightly colored, replace " + selectedShoes + " with another pair of shoes");
-      return false;
-    }
-
-    // only 1 of shirt pants or shoes can have a print
-    int printCount = (shirt.hasPrint() || pants.hasPrint()) ? 1 : 0;
-    printCount += selectedShoes.hasPrint() ? 1 : 0;
-
-    if (printCount > 1) {
-      if (getShowDebugMessage()) System.out.println(shirt + " or " + pants + " already has a print, get another pair of shoes instead of: " + selectedShoes);
-      return false;
-    }
+    if (checkHeelsPairedWithShorts(outfit)) { return false; }
 
     return true;
   }
 
-  public boolean isAccessoryGood(Outfit outfit) {
-    return isAccessoryGood(outfit, outfit.getAccessory());
+  /**
+   * Check if heels are paired with shorts. If yes, return true
+   * @param outfit - the outfit object
+   * @return - true if heels are paired with shorts. False otherwise
+   */
+  private boolean checkHeelsPairedWithShorts(Outfit outfit) {
+    Pants pants = outfit.getPants();
+    Shoes shoes = outfit.getShoes();
+
+    if (shoes.hasHeel() && pants.isShorts()) {
+      if (showDebugMessage()) {
+        System.out.println(shoes + " has heels, so it is not compatible with " + pants);
+      }
+
+      return true;
+    }
+
+    return false;
   }
 
-  public boolean isAccessoryGood(Outfit outfit, Object selectedItem) {
-    Shirts shirt = outfit.getShirt();
-    Pants pants = outfit.getPants();
-    Outerwear outerwear = outfit.getOuterwear();
-    Shoes shoes = outfit.getShoes();
-    Accessories selectedAccessory = (Accessories) selectedItem;
-
-    // if the shirt, pants and outerwear are formal, then the shoes should be as well
-    if (shirt.isFormal() && pants.isFormal() && outerwear.isFormal() && shoes.isFormal() && !selectedAccessory.isFormal()) {
-      if (getShowDebugMessage()) System.out.println(selectedAccessory + ": not formal. It doesn't match " + shirt + ", " + pants + ", " + outerwear + " and " + shoes);
-      return false;
-    }
+  /**
+   * Check that the accessory paired with other items meet the outfit rules
+   * @param outfit - the outfit object
+   * @return - true if the outfit meets the outfit rules. False otherwise
+   */
+  public boolean isAccessoryGood(Outfit outfit) {
+    // if the shirt, pants, shoes and outerwear are formal, then the accessory should be as well
+    if (!checkFormalClothesFormalAccessories(outfit)) { return false; }
 
     // if pants do not have pockets, then the accessory should be a bag
-    if (!pants.hasPockets() && !selectedAccessory.canStoreItems()) {
-      if (getShowDebugMessage()) System.out.println(pants + " doesn't have pockets, so we need to select a bag as the accessory. Current accessory: " + selectedAccessory);
-      return false;
-    }
+    if (!checkPantsHavePocketsOrBag(outfit)) { return false; }
 
     // if any of the items should not be worn with jewelry, then ensure that the accessory is not jewelry
-    if ((!shirt.isGoodWithJewelry() || !pants.isGoodWithJewelry() || !outerwear.isGoodWithJewelry() || !shoes.isGoodWithJewelry()) && selectedAccessory.isJewelry()) {
-      if (getShowDebugMessage()) System.out.println("Outfit (" + shirt + ", " + pants + ", " + outerwear + ", " + shoes + ") does not work well with jewelry (" + selectedAccessory + "), select another accessory");
-      return false;
-    }
+    if (!checkItemsMatchJewelry(outfit)) { return false; }
     
     return true;
   }
 
   /**
-   * Check that the item we randomly pick from the list follows the outfit rules
-   * @param list - the list of items in a specific category (eg, a list of shirts, a list of pants, etc)
-   * @param methodString - the method to execute after a random item is retrieved from the list. This method
-   *                       checks that the item follows the outfit rules
-   * @return - an object of the same type as the list that was passed in (eg, a shirts list will return an object of type `Shirts`)
+   * Checks if all of the clothing items (shirt, pants, shoes and outerwear) are all formal
+   * If they are, then the accessory should be as well
+   * @param outfit - the outfit object
+   * @return - true if all items including accessory is formal. False otherwise
    */
-  private Object checkItemIsGood(List<?> list, String methodString, Outfit outfit) {
-    Method method = checkMethodExists(methodString);
-    Object item;
+  private boolean checkFormalClothesFormalAccessories(Outfit outfit) {
+    Shirts shirt = outfit.getShirt();
+    Pants pants = outfit.getPants();
+    Outerwear outerwear = outfit.getOuterwear();
+    Shoes shoes = outfit.getShoes();
+    Accessories accessory = outfit.getAccessory();
 
-    if (method == null) System.out.println("Method: " + methodString + " doesn't exist");
+    if (shirt.isFormal() && pants.isFormal() && outerwear.isFormal() && shoes.isFormal() && !accessory.isFormal()) {
+      if (showDebugMessage()) {
+        System.out.println(accessory + ": not formal. It doesn't match " + shirt + ", " + pants + ", " + outerwear + " and " + shoes);
+      }
 
-    do {
-      item = getRandomItem(list);
-    } while (!invokeItemIsGood(method, outfit, item));
-
-    return item;
-  }
-
-  private Method checkMethodExists(String methodString) {
-    Method method = null;
-
-    try {
-      method = this.getClass().getMethod(methodString, Outfit.class, Object.class);
-    } catch (SecurityException e) {
-      e.printStackTrace();
-    } catch (NoSuchMethodException e) {
-      e.printStackTrace();
+      return false;
     }
 
-    return method;
+    return true;
   }
 
-  private boolean invokeItemIsGood(Method method, Outfit outfit, Object selectedItem) {
-    boolean isItemGood = false;
+  /**
+   * Check if the outfit's pants have pockets. If they don't, then the accessory should be a bag
+   * @param outfit - the outfit object
+   * @return - false if the pants do not have pockets and the accessory is not a bag. True otherwise
+   */
+  private boolean checkPantsHavePocketsOrBag(Outfit outfit) {
+    Pants pants = outfit.getPants();
+    Accessories accessory = outfit.getAccessory();
 
-    try {
-      isItemGood = (boolean) method.invoke(this, outfit, selectedItem);
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (InvocationTargetException e) {
-      e.printStackTrace();
+    if (!pants.hasPockets() && !accessory.canStoreItems()) {
+      if (showDebugMessage()) {
+        System.out.println(pants + " doesn't have pockets, so we need to select a bag as the accessory. Current accessory: " + accessory);
+      }
+
+      return false;
     }
 
-    return isItemGood;
+    return true;
   }
 
+  /**
+   * Check if the clothing items are all good to wear with jewelry. If they aren't, then the accessory
+   * shouldn't be a jewelry piece
+   * @param outfit - the outfit object
+   * @return - false if the clothing items are not good paired with jewelry, but the accessory is a jewelry piece. True otherwise
+   */
+  private boolean checkItemsMatchJewelry(Outfit outfit) {
+    Shirts shirt = outfit.getShirt();
+    Pants pants = outfit.getPants();
+    Outerwear outerwear = outfit.getOuterwear();
+    Shoes shoes = outfit.getShoes();
+    Accessories accessory = outfit.getAccessory();
+
+    if ((!shirt.isGoodWithJewelry() || !pants.isGoodWithJewelry() || !outerwear.isGoodWithJewelry() || !shoes.isGoodWithJewelry()) && accessory.isJewelry()) {
+      if (showDebugMessage()) {
+        System.out.println("Outfit (" + shirt + ", " + pants + ", " + outerwear + ", " + shoes + ") does not work well with jewelry (" + accessory + "), select another accessory");
+      }
+
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Get a random item from the list (eg, shirts list, pants list, etc)
+   * @param list - the list to get an item from
+   * @return - the item at a random index in the list
+   */
   private Object getRandomItem(List<?> list) {
     int randomIndex = getRandomNumber(list.size());
     return list.get(randomIndex);
   }
 
+  /**
+   * Get a random number, from 0 to the max number (not including the max number)
+   * @param max - the max number
+   * @return - a random integer between 0 and the max
+   */
   private int getRandomNumber(int max) {
     return ThreadLocalRandom.current().nextInt(0, max);
   }
-
-  /**
-   * Prints a list. Used for debugging
-   * @param list - list of items (for example, shirts, pants, etc)
-   */
-  /*private void printList(List<?> list) {
-    for (int i = 0; i < list.size(); i++) {
-      System.out.println("Item: " + list.get(i).toString());
-    }
-  }*/
 }

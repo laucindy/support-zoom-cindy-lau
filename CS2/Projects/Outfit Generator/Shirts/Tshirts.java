@@ -5,10 +5,6 @@ public class Tshirts extends Shirts {
     super();
   }
 
-  public Tshirts(String color) {
-    super(color);
-  }
-
   public boolean hasPrint() {
     return false;
   }
