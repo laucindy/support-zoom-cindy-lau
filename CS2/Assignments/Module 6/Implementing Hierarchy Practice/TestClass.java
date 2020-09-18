@@ -15,7 +15,7 @@ public class TestClass {
     apple.print();
     System.out.println("");
 
-    // fujiApple and grannySmith apples => test inheritance, call methods from a class higher up
+    // fujiApple => test inheritance, call methods from a class higher up
     Apple fujiApple = new FujiApple();
     fujiApple.setName("Fuji apple");
     fujiApple.setOrigin("Japan");
@@ -24,7 +24,12 @@ public class TestClass {
     fujiApple.printFruitStats();
     System.out.println("");
 
-    Apple grannySmith = new GrannySmithApple("Granny Smith", "green", "Washington", 10);
+    // grannySmith => test a method specific to the GrannySmithApple class (adding baking recipes), and 
+    // test that calling the `printFruitStats()` method from a class higher up still works
+    GrannySmithApple grannySmith = new GrannySmithApple("Granny Smith", "green", "Washington", 10);
+    grannySmith.addBakingRecipe("apple pie");
+    grannySmith.addBakingRecipe("apple crisp");
+    grannySmith.addBakingRecipe("apple cinnamon muffins");
     grannySmith.print();
     grannySmith.printFruitStats();
     System.out.println("");
