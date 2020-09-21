@@ -2,27 +2,11 @@ package Shoes;
 
 public class Flats extends Shoes {
   public Flats() {
-    super();
-  }
-
-  public boolean hasPrint() {
-    return false;
-  }
-
-  public boolean isFormal() {
-    return false;
-  }
-
-  public boolean isGoodWithJewelry() {
-    return true;
-  }
-
-  public boolean isBrightlyColored() {
-    return true;
-  }
-
-  public boolean hasHeel() {
-    return false;
+    hasPrint = false;
+    isFormal = false;
+    isGoodWithJewelry = true;
+    isBrightlyColored = true;
+    hasHeel = false;
   }
 
   public String toString() {

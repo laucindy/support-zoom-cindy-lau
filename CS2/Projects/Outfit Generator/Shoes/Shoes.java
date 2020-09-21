@@ -3,9 +3,9 @@ package Shoes;
 import Clothing.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class Shoes implements Clothing {
+public abstract class Shoes extends Clothing {
   protected String color;
-  public abstract boolean hasHeel();
+  protected boolean hasHeel;
 
   public Shoes() {
     this.color = getRandomColor();
@@ -16,6 +16,10 @@ public abstract class Shoes implements Clothing {
   }
 
   public String getColor() { return color; }
+
+  public boolean hasHeel() {
+    return hasHeel;
+  }
 
   private String getRandomColor() {
     String[] colors = {"pink", "red", "yellow", "orange", "green", "blue", "purple", "grey", "brown", "black"};

@@ -91,8 +91,7 @@ public class GenerateOutfit {
 
     if (colors.contains("brown") && colors.contains("grey")) {
       if (showDebugMessage()) {
-        System.out.println(
-            "Don't mix brown and grey clothes together. Shirt: " + shirt + ", pants: " + pants + ", shoes: " + shoes);
+        System.out.println("Don't mix brown and grey clothes together. Shirt: " + shirt + ", pants: " + pants + ", shoes: " + shoes);
       }
 
       return true;

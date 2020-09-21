@@ -1,16 +1,10 @@
 package Accessories;
 
 public class HoboBag extends Accessories {
-  public boolean isFormal() {
-    return false;
-  }
-
-  public boolean isJewelry() {
-    return false;
-  }
-
-  public boolean canStoreItems() {
-    return true;
+  public HoboBag() {
+    isFormal = false;
+    isJewelry = false;
+    canStoreItems = true;
   }
 
   public String toString() {

@@ -2,31 +2,12 @@ package Pants;
 
 public class BoardShorts extends Pants {
   public BoardShorts() {
-    super();
-  }
-
-  public boolean hasPrint() {
-    return false;
-  }
-
-  public boolean isFormal() {
-    return false;
-  }
-
-  public boolean isGoodWithJewelry() {
-    return false;
-  }
-
-  public boolean isBrightlyColored() {
-    return true;
-  }
-
-  public boolean hasPockets() {
-    return true;
-  }
-
-  public boolean isShorts() {
-    return true;
+    hasPrint = false;
+    isFormal = false;
+    isGoodWithJewelry = false;
+    isBrightlyColored = true;
+    hasPockets = true;
+    isShorts = true;
   }
 
   public String toString() {

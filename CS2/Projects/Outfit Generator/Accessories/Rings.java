@@ -1,16 +1,10 @@
 package Accessories;
 
 public class Rings extends Accessories {
-  public boolean isFormal() {
-    return true;
-  }
-
-  public boolean isJewelry() {
-    return true;
-  }
-
-  public boolean canStoreItems() {
-    return false;
+  public Rings() {
+    isFormal = true;
+    isJewelry = true;
+    canStoreItems = false;
   }
 
   public String toString() {

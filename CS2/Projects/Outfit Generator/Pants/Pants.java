@@ -3,11 +3,10 @@ package Pants;
 import Clothing.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class Pants implements Clothing {
-  public abstract boolean hasPockets();
-  public abstract boolean isShorts();
-
+public abstract class Pants extends Clothing {
   protected String color;
+  protected boolean hasPockets;
+  protected boolean isShorts;
 
   public Pants() {
     this.color = getRandomColor();
@@ -17,8 +16,14 @@ public abstract class Pants implements Clothing {
     this.color = color;
   }
 
-  public String getColor() {
-    return color;
+  public String getColor() { return color; }
+
+  public boolean hasPockets() {
+    return hasPockets;
+  }
+
+  public boolean isShorts() {
+    return isShorts;
   }
 
   private String getRandomColor() {

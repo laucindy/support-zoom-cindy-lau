@@ -3,10 +3,9 @@ package Outerwear;
 import Clothing.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class Outerwear implements Clothing {
+public abstract class Outerwear extends Clothing {
   protected String color;
-
-  public abstract boolean isForColdWeather();
+  protected boolean isForColdWeather;
 
   public Outerwear() {
     this.color = getRandomColor();
@@ -16,8 +15,10 @@ public abstract class Outerwear implements Clothing {
     this.color = color;
   }
 
-  public String getColor() {
-    return color;
+  public String getColor() { return color; }
+
+  public boolean isForColdWeather() {
+    return isForColdWeather;
   }
 
   private String getRandomColor() {

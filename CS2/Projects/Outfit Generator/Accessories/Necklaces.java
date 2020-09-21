@@ -1,6 +1,12 @@
 package Accessories;
 
 public class Necklaces extends Accessories {
+  public Necklaces() {
+    isFormal = true;
+    isJewelry = true;
+    canStoreItems = false;
+  }
+
   public boolean isFormal() {
     return true;
   }

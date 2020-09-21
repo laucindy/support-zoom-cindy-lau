@@ -1,16 +1,10 @@
 package Accessories;
 
 public class EveningBag extends Accessories {
-  public boolean isFormal() {
-    return true;
-  }
-
-  public boolean isJewelry() {
-    return false;
-  }
-
-  public boolean canStoreItems() {
-    return true;
+  public EveningBag() {
+    isFormal = true;
+    isJewelry = false;
+    canStoreItems = true;
   }
 
   public String toString() {
