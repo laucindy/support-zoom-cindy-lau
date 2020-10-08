@@ -22,3 +22,11 @@ puts "You've got #{10 - num_guesses} guesses left."
 print "Make a guess: "
 guess = gets.to_i
 
+# Compare the guess to the target
+# Print the appropriate message
+
+if guess < target
+  puts "Oops. Your guess was LOW."
+elsif guess > target
+  puts "Oops. Your guess was HIGH."
+end
