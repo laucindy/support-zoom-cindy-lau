@@ -29,4 +29,8 @@ if guess < target
   puts "Oops. Your guess was LOW."
 elsif guess > target
   puts "Oops. Your guess was HIGH."
+elsif guess == target
+  puts "Good job, #{name}!"
+  puts "You guessed my number in #{num_guesses} guesses!"
+  guessed_it = true
 end
