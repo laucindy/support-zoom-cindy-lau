@@ -29,10 +29,10 @@ def num_matches(code, guess)
 end
 
 
-#code = [rand(1..6), rand(1..6), rand(1..6), rand(1..6)].join().to_i
+code = [rand(1..6), rand(1..6), rand(1..6), rand(1..6)].join().to_i
 
-code = 1234               # for debugging
-puts "code: #{code}"      # for debugging
+#code = 1234               # for debugging
+#puts "code: #{code}"      # for debugging
 
 num_guesses = 0;
 
