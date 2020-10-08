@@ -15,5 +15,10 @@ target = rand(100) + 1
 
 # Track how many guesses the player has made
 num_guesses = 0
+guessed_it = false
 
 puts "You've got #{10 - num_guesses} guesses left."
+
+print "Make a guess: "
+guess = gets.to_i
+
