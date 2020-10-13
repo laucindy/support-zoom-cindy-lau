@@ -4,18 +4,16 @@ name = gets.chomp
 line_number = 0
 
 until line_number == 4 do
-  print "Happy birthday "
+  birthday_string = "Happy birthday"
 
   case line_number
   when 2
-    print "dear #{name}"
+    puts "#{birthday_string} dear #{name}"
   when 3
-    print "to you."
+    puts "#{birthday_string} to you."
   else
-    print "to you"
+    puts "#{birthday_string} to you"
   end
-
-  print "\n"
 
   line_number += 1
 end
