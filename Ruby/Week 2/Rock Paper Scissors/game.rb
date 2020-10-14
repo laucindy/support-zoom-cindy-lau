@@ -1,15 +1,26 @@
-def valid_input?(item1, item2)
-  valid_inputs = ["rock", "paper", "scissors"]
+def select_items
+  print "Player 1 - Enter your selection: "
+  player1_selected = gets.chomp.downcase
 
-  # check that both items contain the exact string "rock", "paper" or "scissors"
-  if valid_inputs.any? {|word| item1 == word} && valid_inputs.any? {|word| item2 == word}
-    return true
-  end
+  print "Player 2 - Enter your selection: "
+  player2_selected = gets.chomp.downcase
 
-  false
+  [player1_selected, player2_selected]
 end
 
-def play_game(item1, item2)
+def valid_items?(item1, item2)
+  valid_items = ["rock", "paper", "scissors"]
+
+  # check that both items contain the exact string "rock", "paper" or "scissors"
+  if valid_items.any? {|word| item1 == word} && valid_items.any? {|word| item2 == word}
+    true
+  else
+    puts "No cheaters! Only Rock, Paper or Scissors are allowed."
+    false
+  end
+end
+
+def compare_items(item1, item2)
   items = [item1, item2]
   winner = nil
 
@@ -26,17 +37,25 @@ def play_game(item1, item2)
     puts 'Scissors cuts paper.'
   end
 
-  puts "Player #{winner + 1} wins." unless winner == nil
+  winner
 end
 
-print "Player 1 - Enter your selection: "
-player1_selected = gets.chomp.downcase
+def play_game
+  player1_selected = nil
+  player2_selected = nil
 
-print "Player 2 - Enter your selection: "
-player2_selected = gets.chomp.downcase
+  loop do
+    player1_selected, player2_selected = select_items
+    break if valid_items?(player1_selected, player2_selected)
+  end
 
-if valid_input?(player1_selected, player2_selected)
-  play_game(player1_selected, player2_selected)
-else
-  puts "No cheaters! Only Rock, Paper or Scissors are allowed."
+  winner = compare_items(player1_selected, player2_selected)
+
+  if winner.nil?
+    play_game
+  else
+    puts "Player #{winner + 1} wins."
+  end
 end
+
+play_game
