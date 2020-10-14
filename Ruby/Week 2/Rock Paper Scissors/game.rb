@@ -11,16 +11,22 @@ end
 
 def play_game(item1, item2)
   items = [item1, item2]
+  winner = nil
 
   if items[0] == items[1]
     puts "Tie!"
   elsif items.include?("rock") && items.include?("paper")
+    winner = items.index("paper")
     puts "Paper covers rock."
   elsif items.include?("rock") && items.include?("scissors")
+    winner = items.index("rock")
     puts "Rock crushes scissors."
   elsif items.include?('paper') && items.include?('scissors')
+    winner = items.index("scissors")
     puts 'Scissors cuts paper.'
   end
+
+  puts "Player #{winner + 1} wins." unless winner == nil
 end
 
 print "Player 1 - Enter your selection: "
