@@ -18,7 +18,7 @@ class User
 
   def current_books
     if @current_books.length > 0
-      puts "#{@name} has checked out the following book#{@current_books.length == 1 ? '' : 's'}:"
+      puts "#{@name} is currently reading the following book#{@current_books.length == 1 ? '' : 's'}:"
       @current_books.each { |book| puts book.title }
       puts
     else
