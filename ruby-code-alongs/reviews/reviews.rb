@@ -1,6 +1,11 @@
 def find_adjective(string)
   words = string.split(" ")
   index = words.find_index("is")
+  
+  if words[index + 1].chars.last == ":"
+    words[index + 1] = words[index + 1].slice(0, words[index + 1].length - 1)
+  end
+  
   words[index + 1]
 end
 
@@ -13,13 +18,10 @@ end
 relevant_lines = lines.find_all { |line| line.include?("Truncated") }
 reviews = relevant_lines.reject { |line| line.include?("--") }
 
-string = reviews.first
-words = string.split(" ")
-
-adjectives = []
-
-reviews.each do |review|
-  adjectives << find_adjective(review)
+adjectives = reviews.map do |review| 
+  adjective = find_adjective(review)
+  "'#{adjective.capitalize}'"
 end
 
+puts "The critics agree, Truncated is:"
 puts adjectives
