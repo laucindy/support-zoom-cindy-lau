@@ -2,7 +2,7 @@ def verse(number)
   puts "#{number} bottle of beer on the wall,"
   puts "#{number} bottle of beer."
   puts "Take one down and pass it around,"
-  puts "#{number} bottle of beer on the wall."
+  puts "#{(number - 1 == 0) ? 'no more' : number - 1} bottle#{(number - 1) == 0 ? 's' : ''} of beer on the wall."
 
   puts
   
