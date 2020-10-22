@@ -50,3 +50,6 @@ car.odometer = 11432
 car.gas_used = 366
 
 puts "Lifetime MPG: #{car.mileage}"
+
+motorcycle = Motorcycle.new
+motorcycle.steer
