@@ -19,65 +19,32 @@ class Vehicle
   end
 end
 
-class Car
-  attr_accessor :odometer
-  attr_accessor :gas_used
-  
-  def mileage
-    @odometer / @gas_used
-  end
+class Car < Vehicle
 
-  def accelerate
-    puts "Floor it!"
-  end
+end
 
-  def sound_horn
-    puts "Beep! Beep!"
-  end
+class Motorcycle < Vehicle
 
-  def steer
-    puts "Turn front 2 wheels."
+end
+
+class Truck < Vehicle
+  attr_accessor :cargo
+
+  def load_bed(contents)
+    puts "Securing #{contents} in the truck bed."
+    @cargo = contents
   end
 end
 
-class Motorcycle
-  attr_accessor :odometer
-  attr_accessor :gas_used
-  
-  def mileage
-    @odometer / @gas_used
-  end
+# Testing
+truck = Truck.new
+truck.accelerate
+truck.steer
+truck.load_bed("259 bouncy balls")
+puts "The truck is carrying #{truck.cargo}."
 
-  def accelerate
-    puts 'Floor it!'
-  end
+car = Car.new
+car.odometer = 11432
+car.gas_used = 366
 
-  def sound_horn
-    puts 'Beep! Beep!'
-  end
-
-  def steer
-    puts 'Turn front 2 wheels.'
-  end
-end
-
-class Truck
-  attr_accessor :odometer
-  attr_accessor :gas_used
-  
-  def mileage
-    @odometer / @gas_used
-  end
-
-  def accelerate
-    puts 'Floor it!'
-  end
-
-  def sound_horn
-    puts 'Beep! Beep!'
-  end
-
-  def steer
-    puts 'Turn front 2 wheels.'
-  end
-end
+puts "Lifetime MPG: #{car.mileage}"
