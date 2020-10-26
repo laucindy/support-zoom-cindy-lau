@@ -19,7 +19,7 @@ class Organism
   end
 
   def print_info
-    skills = (methods - Object.new.methods) - [:print_info]
+    skills = (methods - Object.new.methods) - [:print_info] - [:name] - [:age] - [:advantage]
     puts "#{@name} the #{self.class.name.downcase} is #{@age} years old. They have been chosen because #{@advantage}. #{@name} can do the following: #{skills.sort!.join(', ')} \n\n"
   end
 end
