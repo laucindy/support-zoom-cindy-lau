@@ -31,7 +31,9 @@ class Animal
 end
 
 class Dog < Animal
-
+  def to_s
+    "#{@name} the dog, age #{age}"
+  end
 end
 
 class Bird < Animal
@@ -52,6 +54,16 @@ class Armadillo < Animal
     super(destination)      # or just `super`, args are automatically passed to superclass
   end
 end
+
+lucy = Dog.new
+lucy.name = "Lucy"
+lucy.age = 4
+
+rex = Dog.new
+rex.name = "Rex"
+rex.age = 2
+
+puts lucy.to_s, rex.to_s
 
 whiskers = Cat.new
 whiskers.name = "Whiskers"
