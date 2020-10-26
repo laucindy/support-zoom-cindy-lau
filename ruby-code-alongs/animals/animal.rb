@@ -49,7 +49,7 @@ end
 class Armadillo < Animal
   def move(destination)
     puts "#{@name} unrolls!"
-    puts "#{@name} runs to the #{destination}."
+    super(destination)      # or just `super`, args are automatically passed to superclass
   end
 end
 
@@ -61,3 +61,7 @@ polly.name = "Polly"
 
 whiskers.talk
 polly.talk
+
+dillon = Armadillo.new
+dillon.name = "Dillon"
+dillon.move("burrow")
