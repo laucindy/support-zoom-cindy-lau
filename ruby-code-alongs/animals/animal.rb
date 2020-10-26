@@ -46,6 +46,13 @@ class Cat < Animal
   end
 end
 
+class Armadillo < Animal
+  def move(destination)
+    puts "#{@name} unrolls!"
+    puts "#{@name} runs to the #{destination}."
+  end
+end
+
 whiskers = Cat.new
 whiskers.name = "Whiskers"
 
