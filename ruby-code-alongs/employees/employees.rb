@@ -14,7 +14,7 @@ class SalariedEmployee < Employee
   attr_reader :salary
 
   def initialize(name = "Anonymous", salary = 0.0)
-    self.name = name
+    super(name)
     self.salary = salary
   end
 
@@ -34,12 +34,12 @@ class HourlyEmployee < Employee
   attr_reader :hourly_wage, :hours_per_week
 
   def initialize(name = "Anonymous", hourly_wage = 0.0, hours_per_week = 0.0)
-    self.name = name
+    super(name)
     self.hourly_wage = hourly_wage
     self.hours_per_week = hours_per_week
   end
 
-  def hourly_wave=(hourly_wave)
+  def hourly_wage=(hourly_wage)
     # Code to validate and set @hours_per_week
   end
 
