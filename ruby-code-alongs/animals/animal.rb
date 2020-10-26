@@ -28,15 +28,29 @@ class Animal
   def report_age
     puts "#{name} is #{@age} years old."
   end
+end
 
-  class Dog < Animal
+class Dog < Animal
 
+end
+
+class Bird < Animal
+  def talk
+    puts "#{@name} says Chirp! Chirp!"
   end
+end
 
-  class Bird < Animal
-
+class Cat < Animal
+  def talk
+    puts "#{@name} says Meow!"
   end
+end
 
-  class Cat < Animal
+whiskers = Cat.new
+whiskers.name = "Whiskers"
 
-  end
+polly = Bird.new
+polly.name = "Polly"
+
+whiskers.talk
+polly.talk
