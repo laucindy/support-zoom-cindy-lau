@@ -23,13 +23,13 @@ class Clip
 end
 
 class Video < Clip
-  attr_accessor :resolution
   include AcceptsComments
+  attr_accessor :resolution
 end
 
 class Song < Clip
-  attr_accessor :beats_per_minute
   include AcceptsComments
+  attr_accessor :beats_per_minute
 end
 
 video = Video.new
