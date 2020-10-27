@@ -53,9 +53,16 @@ class HourlyEmployee < Employee
     formatted_pay = format("$%.2f", pay_for_period)
   end
 
-  def turn_into_cashier
-    self.hourly_wage = 12.75
-    self.hours_per_week = 25
+  def self.security_guard(name)
+    HourlyEmployee.new(name, 19.25, 30)
+  end
+
+  def self.cashier(name)
+    HourlyEmployee.new(name, 12.75, 25)
+  end
+
+  def self.janitor(name)
+    HourlyEmployee.new(name, 10.50, 20)
   end
 end
 
