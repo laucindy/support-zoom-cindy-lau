@@ -16,10 +16,10 @@ mario.check_time_played_per_session
 mario.total_time_played
 puts
 
-mario.remove_time_played_at_index(1)
+mario.remove_times_played_by_index(1)
 mario.add_time_played(7)
 mario.add_time_played(20)
-mario.remove_all_times_played_with_value(7)
+mario.remove_times_played(7)
 puts
 
 mario.playing_game?
