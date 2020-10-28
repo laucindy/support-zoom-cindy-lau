@@ -3,7 +3,7 @@ require_relative 'sports_game'
 require_relative 'video_game'
 
 # Test VideoGame class
-mario = VideoGame.new("Mario", 75, "Nintendo Switch")
+mario = VideoGame.new("Mario 64", 75, "Nintendo Switch")
 mario.start_game
 puts
 
@@ -16,10 +16,11 @@ mario.check_time_played_per_session
 mario.total_time_played
 puts
 
-mario.remove_time_played_at_index(1)
+
+mario.remove_times_played_by_index(1)
 mario.add_time_played(7)
 mario.add_time_played(20)
-mario.remove_all_times_played_with_value(7)
+mario.remove_times_played(7)
 puts
 
 mario.playing_game?
@@ -31,6 +32,10 @@ puts
 
 mario.rate_game(4)
 mario.end_game
+
+puts
+mario.add_notes("This is a pretty good game, but the camera is a pain, and it really shows its age.")
+mario.check_notes
 
 puts
 
@@ -51,22 +56,32 @@ soccer.end_game
 soccer.playing_game?
 puts "#{soccer.most_matches_won} has won the most matches."
 
+soccer.add_notes("This was fun!")
+soccer.check_notes
+
 puts
 
 # Test BoardGame class
 monopoly = BoardGame.new("Monopoly", 4, 6)
 monopoly.start_game
-monopoly.start_game    # error, as a game has already started
-monopoly.playing_game?
+#monopoly.start_game    # error, as a game has already started
+#monopoly.playing_game?
 puts
 
+=begin
 monopoly.add_player
 monopoly.add_player
 monopoly.add_player
 puts
+=end
 
 monopoly.winner("Player 3")
 
 monopoly.end_game
-monopoly.end_game     # error, as game has already ended
-monopoly.playing_game?
+#monopoly.end_game     # error, as game has already ended
+#monopoly.playing_game?
+puts 
+
+monopoly.rate_game(3)
+monopoly.add_notes("This game takes so long to play...")
+monopoly.check_notes

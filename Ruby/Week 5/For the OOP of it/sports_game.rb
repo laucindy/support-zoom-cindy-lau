@@ -1,6 +1,9 @@
 require_relative 'game'
+require_relative 'mixins'
 
 class SportsGame < Game
+  include Notes
+
   def initialize(name, team_size)
     super(name)
     @team_size = team_size

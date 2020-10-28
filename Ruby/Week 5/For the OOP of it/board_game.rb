@@ -1,10 +1,16 @@
 require_relative 'game'
+require_relative 'mixins'
 
 class BoardGame < Game
+  include Notes
+  include Rating
+
   def initialize(name, num_players, max_players)
     super(name)
     @num_players = num_players
     @max_players = max_players
+    @notes = ""
+    @rating
   end
 
   def start_game

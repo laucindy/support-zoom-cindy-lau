@@ -1,4 +1,8 @@
+require_relative 'mixins'
+
 class Game
+  include ArrayFunctions
+
   def initialize(name)
     @name = name
     @time_played_per_session_minutes = []
@@ -16,29 +20,23 @@ class Game
   end
 
   def total_time_played
-    total = @time_played_per_session_minutes.reduce(0) { |sum, i| sum + i }
+    total = get_sum(@time_played_per_session_minutes)
     puts "Total time spent playing #{@name} to date: #{total} minutes"
   end
 
   def add_time_played(time_played)
-    raise "Time played must be a number!" unless @@is_numeric.call(time_played)
-
-    @time_played_per_session_minutes << time_played
+    add_number(@time_played_per_session_minutes, time_played)
     puts "Added #{time_played} minutes played to session history."
   end
 
   def remove_times_played_by_index(index)
-    raise "Index is greater than the array length! Array length is: #{@time_played_per_session_minutes.length}." if index >= @time_played_per_session_minutes.length
-
-    @time_played_per_session_minutes.delete_at(index)
+    remove_number_by_index(@time_played_per_session_minutes, index)
     puts "Removed time played at index #{index}."
   end
 
   def remove_times_played(time_played)
-    raise "#{time_played} is not a number!" unless @@is_numeric.call(time_played)
-
-    @time_played_per_session_minutes.delete(time_played)
-    puts "Removed all values that match #{time_played} from history."
+    remove_number(@time_played_per_session_minutes, time_played)
+    puts "Removed all values that match #{time_played} from session history."
   end
 
   def check_time_played_per_session

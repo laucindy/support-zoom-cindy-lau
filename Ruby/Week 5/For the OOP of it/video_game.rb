@@ -1,10 +1,15 @@
 require_relative 'game'
+require_relative 'mixins'
 
 class VideoGame < Game
+  include Notes
+  include Rating
+
   def initialize(name, price, console)
     super(name)
     @price = price
     @console = console
+    @notes = ""
     @rating = nil
   end
 
@@ -15,10 +20,5 @@ class VideoGame < Game
 
   def end_game
     super { "Finished playing #{@name} for the day. Powering down the #{@console}..." }
-  end
-
-  def rate_game(rating)
-    @rating = rating
-    puts "Sucessfully rated game! #{@name} is now rated #{@rating} stars."
   end
 end
