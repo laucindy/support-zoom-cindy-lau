@@ -8,7 +8,6 @@ class Game
   @@is_numeric = Proc.new { |time| time.is_a? Numeric }
 
   def name=(name)
-    puts name.is_a? String
     if name == "" || !(name.is_a?(String))
       raise "Name can't be blank and must be a string!"
     end
