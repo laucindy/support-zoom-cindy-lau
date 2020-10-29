@@ -10,18 +10,7 @@ class Domino
   end
 
   def to_s
-  #  print_domino
-    "#{@sides[0]}|#{@sides[1]} "
+    print_domino
+  #  "#{@sides[0]}|#{@sides[1]} "     # string representation, eg 3|4
   end
 end
-
-=begin
-puts " ------------ "
-puts "|     ||     |"
-puts "|  *  ||  *  |"
-puts "|     ||     |"
-puts " ------------ "
-
-domino = Domino.new(4, 3)
-domino.to_s
-=end
