@@ -2,7 +2,6 @@ require_relative 'domino'
 require_relative 'print_domino'
 
 class DominoSet
-  include PrintDomino
   include PrintMultipleDominoes
 
   SET_SIZE = 28
@@ -48,28 +47,18 @@ class DominoSet
     end
   end
 
-  
-  
+  def print_one_suit_of_dominoes(dominoes)
+    print_suit_dominoes(dominoes)
+  end
 end
 
 def swap_tops_and_bottoms(dominoes)
-  new_order = dominoes.map do |domino| 
+  dominoes.map do |domino| 
     domino.sides[0], domino.sides[1] = domino.sides[1], domino.sides[0]
     domino
   end
-
-  new_order
 end
 
-
-set = DominoSet.new
-set.initialize_dominoes
-
-puts "Printing original order: "
-set.print_dominoes(set.dominoes, true)
-
-new_order = swap_tops_and_bottoms(set.dominoes)
-
-puts "Printing new order: "
-set.print_dominoes(new_order, false)
-#p new_order
+def find_dominoes_with(dominoes, number)
+  dominoes.find_all { |domino| (domino.sides[0] == number) || (domino.sides[1] == number) }
+end

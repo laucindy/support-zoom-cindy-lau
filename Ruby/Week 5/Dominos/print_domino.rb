@@ -7,6 +7,14 @@ module PrintMultipleDominoes
     print_border(dominoes, start_index, end_index)
   end
 
+  def print_suit_dominoes(dominoes)
+    print_border(dominoes, 0, 7)
+    print_first_line(dominoes, 0, 7)
+    print_second_line(dominoes, 0, 7)
+    print_third_line(dominoes, 0, 7)
+    print_border(dominoes, 0, 7)
+  end
+
   def print_border(_dominoes, start_index, end_index)
     (start_index...end_index).each do |_j|
       print ' ------------ '
@@ -87,7 +95,7 @@ module PrintDomino
         print '| * * |'
       end
     end
-  #  print "\n"
+    print "\n"
   end
 
   def print_second_line
@@ -101,7 +109,7 @@ module PrintDomino
         print '| * * |'
       end
     end
-  #  print "\n"
+    print "\n"
   end
 
   def print_third_line
@@ -115,6 +123,6 @@ module PrintDomino
         print '| * * |'
       end
     end
-  #  print "\n"
+    print "\n"
   end
 end
