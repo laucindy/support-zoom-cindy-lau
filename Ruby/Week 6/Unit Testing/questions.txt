@@ -1,0 +1,66 @@
+### Identify the purpose of the classes.
+
+The purpose of the `GradeBook` class is to store the grades of each student. Grades can be viewed and added, and a letter grade can be converted to a number and vice versa.
+
+The purpose of the `Float` class is to store information about converting a numerical grade to a letter.
+
+
+### Identify the purpose of the methods.
+
+In the `GradeBook` class:
+
+- `initialize`: creates a new instance variable called `@grades`, and an empty hash is assigned to it. This will be used to store student names and student grades.
+- `add_grade`: adds a grade to the gradebook (ie, `@grades`), where the hash key is the student's name, converted to a symbol.
+- `get_grade`: retrieves a student's grade
+- `letter_grades`: converts every grade in the gradebook to a letter
+- `letter_grade`: `grade` is undefined in this method, so this code won't run. But it appears this is supposed to convert a specific student's grade to a letter
+
+In the `Float` class:
+
+- `to_grade`: converts a number to a letter grade
+
+
+### Identify the groups of expected behaviour.
+
+In the `GradeBook` class:
+
+`initialize`:
+- expect a hash `@grades` to be initialized
+- if a key is searched for, and it doesn't have a value, then the expected value returned will be 0 (the default value)
+
+add/get/convert grades:
+- expect that given a student name and a grade, it will be added to the gradebook
+- expect to retrieve the correct grade matching the student
+- expect that every grade in the gradebook will be converted to a letter grade
+- expect that given a specific student's name, it will return the correct grade given to that student
+- expect that given a number, it returns the correct letter grade
+
+
+### Identify the limits of the cases of expected behaviour.
+
+In the `GradeBook` class:
+
+`add_grade`:
+- if there are two students with the same name, then adding another grade from the second student will result in the first being overwritten
+- `grade.to_f` will return 0.0 if a string is passed in
+- in order to convert the key (ie, student name) to a symbol, the key must be a string
+
+`get_grade`:
+- the correct grade won't be retrieved if there are two students with the same name (one will have been overwritten)
+- the parameter being passed in must be a string, or converting it to a symbol won't be possible
+
+`letter_grades`:
+- should work as expected. Only issue might be if someone passes in the grade as a string - `to_f` will convert this to 0.
+
+`letter_grade`:
+- should work as expected.
+
+In the `Float` class:
+
+`to_grade`: 
+- if a number is a negative number, or above 100, then we likely want to show an out of bounds error, instead of giving a letter grade.
+
+
+### Identify any exceptional/error cases.
+
+The `letter_grade` method will raise an error, since the `grade` method doesn't exist.
