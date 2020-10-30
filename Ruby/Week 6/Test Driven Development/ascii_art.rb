@@ -74,7 +74,3 @@ class AsciiArt
     drawing = generate_triangle(number)
   end
 end
-
-#ascii_art = AsciiArt.new { include LeftTriangle }
-#ascii_art = AsciiArt.new.extend DiamondTriangle
-#puts ascii_art.draw(3)
