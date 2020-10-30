@@ -13,4 +13,11 @@ class AsciiArtTest < Minitest::Test
     actual = ascii_art.draw(3)
     assert_equal(expected, actual)
   end
+
+  def test_empty_output_triangle_of_asterisks_left_aligned
+    ascii_art = AsciiArt.new
+    expected = ""
+    actual = ascii_art.draw(0)
+    assert_equal(expected, actual)
+  end
 end
