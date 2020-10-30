@@ -36,5 +36,5 @@ class AsciiArt
 end
 
 #ascii_art = AsciiArt.new { include LeftTriangle }
-#ascii_art = AsciiArt.new.extend RightTriangle
+#ascii_art = AsciiArt.new.extend CenterTriangle
 #puts ascii_art.draw(3)
