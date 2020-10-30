@@ -1,6 +1,5 @@
 require 'minitest/autorun'
-
-require_relative 'part1'
+require_relative 'ascii_art'
 
 class AsciiArtTest < Minitest::Test
   def setup
@@ -9,15 +8,16 @@ class AsciiArtTest < Minitest::Test
 
   def test_outputs_triangle_of_asterisks_left_aligned
     ascii_art = AsciiArt.new
-    expected = "*\n**\n***\n"
-    actual = ascii_art.draw(3)
-    assert_equal(expected, actual)
+    expected_3_stars = "*\n**\n***\n"
+    expected_4_stars = "*\n**\n***\n****\n"
+
+    assert_output(expected_3_stars) { puts ascii_art.draw(3) }
+    assert_output(expected_4_stars) { puts ascii_art.draw(4) }
   end
 
   def test_empty_output_triangle_of_asterisks_left_aligned
     ascii_art = AsciiArt.new
-    expected = ""
-    actual = ascii_art.draw(0)
-    assert_equal(expected, actual)
+    expected = "\n"
+    assert_output(expected) { puts ascii_art.draw(0) }
   end
 end
