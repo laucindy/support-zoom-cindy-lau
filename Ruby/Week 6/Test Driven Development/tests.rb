@@ -20,4 +20,19 @@ class AsciiArtTest < Minitest::Test
     expected = "\n"
     assert_output(expected) { puts ascii_art.draw(0) }
   end
+
+  def test_outputs_triangle_of_asterisks_right_aligned
+    ascii_art = AsciiArt.new
+    expected_3_stars = "  *\n **\n***"
+    expected_4_stars = "   *\n  **\n ***\n****"
+
+    assert_output(expected_3_stars) { puts ascii_art.draw(3) }
+    assert_output(expected_4_stars) { puts ascii_art.draw(4) }
+  end
+
+  def test_empty_output_triangle_of_asterisks_right_aligned
+    ascii_art = AsciiArt.new
+    expected = "\n"
+    assert_output(expected) { puts ascii_art.draw(0) }
+  end
 end
