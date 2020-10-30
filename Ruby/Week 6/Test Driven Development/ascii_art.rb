@@ -29,6 +29,22 @@ module RightTriangle
   end
 end
 
+module CenterTriangle
+  def generate_triangle(number)
+    drawing = ''
+    row = 1
+
+    while row <= number
+      (number - row).times { print ' ' }
+      row.times { print '* ' }
+      print "\n"
+      row += 1
+    end
+
+    drawing
+  end
+end
+
 class AsciiArt
   def draw(number)
     drawing = generate_triangle(number)
