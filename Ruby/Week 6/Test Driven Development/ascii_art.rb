@@ -1,10 +1,10 @@
-class AsciiArt
-  def draw(number)
-    drawing = ""
+module LeftTriangle
+  def generate_triangle(number)
+    drawing = ''
     row = 1
 
     while row <= number
-      row.times { drawing += "*" }
+      row.times { drawing += '*' }
       drawing += "\n"
       row += 1
     end
@@ -12,3 +12,29 @@ class AsciiArt
     drawing
   end
 end
+
+module RightTriangle
+  def generate_triangle(number)
+    drawing = ''
+    row = 1
+
+    while row <= number
+      (number - row).times { print ' ' }
+      row.times { print '*' }
+      print "\n"
+      row += 1
+    end
+
+    drawing
+  end
+end
+
+class AsciiArt
+  def draw(number)
+    drawing = generate_triangle(number)
+  end
+end
+
+#ascii_art = AsciiArt.new { include LeftTriangle }
+#ascii_art = AsciiArt.new.extend RightTriangle
+#puts ascii_art.draw(3)
