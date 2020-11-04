@@ -27,7 +27,7 @@ class PassphraseCheckerTest < Minitest::Test
 
   # Failing test. A passphrase that is an empty string should not be valid.
   def test_passphrase_is_empty_returns_false
-  #  refute(PassphraseChecker.valid?(""))
+    refute(PassphraseChecker.valid?(""))
   end
 
   def test_passphrase_each_word_is_made_of_symbols_returns_true
