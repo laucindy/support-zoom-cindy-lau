@@ -16,7 +16,10 @@ mario.check_time_played_per_session
 mario.total_time_played
 puts
 
+<<<<<<< HEAD:Ruby/Week 5/For the OOP of it/main.rb
 
+=======
+>>>>>>> 2ebf366623624dd1f7a78af416a289054f1cfadc:Ruby/Week 5/For the OOP of it/test.rb
 mario.remove_times_played_by_index(1)
 mario.add_time_played(7)
 mario.add_time_played(20)
