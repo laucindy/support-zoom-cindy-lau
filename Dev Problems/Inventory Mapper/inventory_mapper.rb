@@ -16,7 +16,13 @@ class InventoryMapper
       end
     end
 
-    add_complete_sets_to_hash(sets_available_by_part_id)
+    @product_name_part_id_mapping.each do |product_name, part_ids|
+     if all_parts_complete_in_set?(sets_available_by_part_id, part_ids)
+      quantity = total_quantity_for_set(sets_available_by_part_id, part_ids)
+      add_set_to_hash(sets_available_by_part_id, product_name, quantity)
+     end
+    end
+
     puts @product_names
   end
 
@@ -25,10 +31,17 @@ class InventoryMapper
     quantity >= @part_id_minimum_quantity_mapping[part_id]
   end
 
-  def add_complete_sets_to_hash(sets_hash)
-    @product_names["Shelf"] += sets_hash["a"] if sets_hash["a"] >= 1
-    @product_names["Stool"] += [sets_hash["b"], sets_hash["c"]].min if (sets_hash["b"] >= 1) && (sets_hash["c"] >= 1)
-    @product_names["Table"] += [sets_hash["d"], sets_hash["e"]].min if (sets_hash["d"] >= 1) && (sets_hash["e"] >= 1)
+  def all_parts_complete_in_set?(sets_hash, part_ids)
+    part_ids.all? { |part_id| sets_hash[part_id] >= 1 }
+  end
+
+  def total_quantity_for_set(sets_hash, part_ids)
+    quantities = part_ids.map { |i| sets_hash[i] }
+    quantities.min
+  end
+
+  def add_set_to_hash(sets_hash, name, quantity)
+    @product_names[name] += quantity
   end
 
   def reset_product_quantities
