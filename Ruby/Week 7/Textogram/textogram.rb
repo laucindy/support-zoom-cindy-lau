@@ -43,7 +43,7 @@ class Textogram
   end
 
   def remove_special_characters_from_words(text)
-    text.gsub(/[^\s'-0-9A-Za-z]/, '')
+    text.gsub(/[^\-\s'0-9A-Za-z]/, '')
   end
 
   def remove_vowels(text)
