@@ -1,9 +1,21 @@
 class Textogram
-  def initialize
+  attr_reader :histogram_hash, :text
+
+  def initialize(text)
     @histogram_hash = Hash.new(0)
+    @text = text
   end
 
-  def histogram(text, case_sensitive = true, include_special_characters = true, include_vowels = true)
+  def histogram_words(case_sensitive = false, include_special_characters = false)
+    text = self.text
+    text = downcase_text(text) unless case_sensitive
+    text = remove_special_characters_from_words(text) unless include_special_characters
+
+    self.histogram_hash = text&.split(" ")&.sort!&.tally
+  end
+
+  def histogram_letters(case_sensitive = true, include_special_characters = true, include_vowels = true)
+    text = self.text
     text = downcase_text(text) unless case_sensitive
     text = remove_special_characters(text) unless include_special_characters
     text = remove_vowels(text) unless include_vowels
@@ -20,7 +32,7 @@ class Textogram
 
   private
 
-  attr_accessor :histogram_hash
+  attr_writer :histogram_hash
 
   def downcase_text(text)
     text.downcase
@@ -30,7 +42,20 @@ class Textogram
     text.gsub(/[^0-9A-Za-z]/, '')
   end
 
+  def remove_special_characters_from_words(text)
+    text.gsub(/[^\s'-0-9A-Za-z]/, '')
+  end
+
   def remove_vowels(text)
     text.gsub(/[aeiou]/, '')
   end
 end
+
+=begin
+# Read book from Project Gutenberg, get histogram of words
+book = File.read("book.txt").strip
+text_data = Textogram.new(book)
+text_data.histogram_words
+puts text_data.histogram_hash
+#text_data.to_s
+=end
