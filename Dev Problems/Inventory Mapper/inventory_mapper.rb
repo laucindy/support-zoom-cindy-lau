@@ -1,21 +1,16 @@
 class Inventory
+  PRODUCT_PART_ID_MAP = { "Shelf" => ["a"], "Stool" => ["b", "c"], "Table" => ["d", "e"] }
+
   def map_inventory(parts)
     quantities_per_part = parts.chars.tally
     quantities_list = { "Shelf" => 0, "Stool" => 0, "Table" => 0 }
 
-    if !quantities_per_part['a'].nil?
-      shelf = Shelf.new(quantities_per_part['a'])
-      quantities_list["Shelf"] = shelf.number_of_sets
-    end
-
-    if !quantities_per_part['b'].nil? && !quantities_per_part['c'].nil?
-      stool = Stool.new(quantities_per_part['b'], quantities_per_part['c'])
-      quantities_list["Stool"] = stool.number_of_sets
-    end
-
-    if !quantities_per_part['d'].nil? && !quantities_per_part['e'].nil?
-      table = Table.new(quantities_per_part['d'], quantities_per_part['e'])
-      quantities_list["Table"] = table.number_of_sets
+    PRODUCT_PART_ID_MAP.each do |product, part_ids|
+      if part_ids.all? { |id| !quantities_per_part[id].nil? }
+        map_parts_to_quantity = part_ids.map { |id| quantities_per_part[id] }
+        product_class = Object.const_get(product).new(map_parts_to_quantity)
+        quantities_list[product] = product_class.number_of_sets
+      end
     end
 
     quantities_list
@@ -24,7 +19,7 @@ end
 
 class Shelf
   def initialize(quantity)
-    @quantity = quantity
+    @quantity = quantity[0]
   end
 
   def number_of_sets
@@ -36,11 +31,10 @@ class Stool
   TOP_QUANTITY = 1
   LEG_QUANTITY = 3
 
-  attr_accessor :top_quantity, :leg_quantity
-
-  def initialize(top_quantity, leg_quantity)
-    @top_quantity = top_quantity
-    @leg_quantity = leg_quantity
+  def initialize(*quantity)
+    quantity.flatten!
+    @top_quantity = quantity[0]
+    @leg_quantity = quantity[1]
   end
 
   def number_of_sets
@@ -55,11 +49,10 @@ class Table
   TOP_QUANTITY = 1
   LEG_QUANTITY = 4
 
-  attr_accessor :top_quantity, :leg_quantity
-
-  def initialize(top_quantity, leg_quantity)
-    @top_quantity = top_quantity
-    @leg_quantity = leg_quantity
+  def initialize(*quantity)
+    quantity.flatten!
+    @top_quantity = quantity[0]
+    @leg_quantity = quantity[1]
   end
 
   def number_of_sets
