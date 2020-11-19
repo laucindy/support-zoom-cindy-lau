@@ -1,66 +1,91 @@
-class InventoryMapper
-  def initialize
-    @part_id_minimum_quantity_mapping = { "a" => 1, "b" => 1, "c" => 3, "d" => 1, "e" => 4 }
-    @product_name_part_id_mapping = { "Shelf" => ["a"], "Stool" => ["b", "c"], "Table" => ["d", "e"] }
-    @product_names = { "Shelf" => 0, "Stool" => 0, "Table" => 0 }
-  end
+class Inventory
+  def map_inventory(parts)
+    quantities_per_part = parts.chars.tally
+    quantities_list = { "Shelf" => 0, "Stool" => 0, "Table" => 0 }
 
-  def map_quantity(input)
-    quantities_per_part = input.chars.tally
-    sets_available_by_part_id = Hash.new(0)      # eg, { "a": 1, "b": 1, "c": 1  } => there are 1 a, 1 b, 3 c
-    
-    quantities_per_part.each do |part_id, quantity|
-      if part_id_meets_minimum_quantities?(part_id, quantity)
-        number_of_sets = quantity / @part_id_minimum_quantity_mapping[part_id]
-        sets_available_by_part_id[part_id] = number_of_sets
-      end
+    if !quantities_per_part['a'].nil?
+      shelf = Shelf.new(quantities_per_part['a'])
+      quantities_list["Shelf"] = shelf.number_of_sets
     end
 
-    @product_name_part_id_mapping.each do |product_name, part_ids|
-     if all_parts_complete_in_set?(sets_available_by_part_id, part_ids)
-      quantity = total_quantity_for_set(sets_available_by_part_id, part_ids)
-      add_set_to_hash(sets_available_by_part_id, product_name, quantity)
-     end
+    if !quantities_per_part['b'].nil? && !quantities_per_part['c'].nil?
+      stool = Stool.new(quantities_per_part['b'], quantities_per_part['c'])
+      quantities_list["Stool"] = stool.number_of_sets
     end
 
-    puts @product_names
-  end
+    if !quantities_per_part['d'].nil? && !quantities_per_part['e'].nil?
+      table = Table.new(quantities_per_part['d'], quantities_per_part['e'])
+      quantities_list["Table"] = table.number_of_sets
+    end
 
-  def part_id_meets_minimum_quantities?(part_id, quantity)
-    return if @part_id_minimum_quantity_mapping[part_id].nil?
-    quantity >= @part_id_minimum_quantity_mapping[part_id]
-  end
-
-  def all_parts_complete_in_set?(sets_hash, part_ids)
-    part_ids.all? { |part_id| sets_hash[part_id] >= 1 }
-  end
-
-  def total_quantity_for_set(sets_hash, part_ids)
-    quantities = part_ids.map { |i| sets_hash[i] }
-    quantities.min
-  end
-
-  def add_set_to_hash(sets_hash, name, quantity)
-    @product_names[name] += quantity
-  end
-
-  def reset_product_quantities
-    @product_names = { 'Shelf' => 0, 'Stool' => 0, 'Table' => 0 }
+    quantities_list
   end
 end
 
-im = InventoryMapper.new
-im.map_quantity("abccc")
-im.reset_product_quantities       # using the same instance of the class for testing, so need to reset quantities
+class Shelf
+  def initialize(quantity)
+    @quantity = quantity
+  end
 
-im.map_quantity("beceadee")
-im.reset_product_quantities
+  def number_of_sets
+    @quantity
+  end
+end
 
-im.map_quantity("eebeedebaceeceedeceacee")
-im.reset_product_quantities
+class Stool
+  TOP_QUANTITY = 1
+  LEG_QUANTITY = 3
 
-im.map_quantity("zabc")
-im.reset_product_quantities
+  attr_accessor :top_quantity, :leg_quantity
 
-im.map_quantity("deeedeee")
-im.reset_product_quantities
+  def initialize(top_quantity, leg_quantity)
+    @top_quantity = top_quantity
+    @leg_quantity = leg_quantity
+  end
+
+  def number_of_sets
+    set_of_legs = @leg_quantity / LEG_QUANTITY
+    set_of_tops = @top_quantity
+
+    [set_of_tops, set_of_legs].min
+  end
+end
+
+class Table
+  TOP_QUANTITY = 1
+  LEG_QUANTITY = 4
+
+  attr_accessor :top_quantity, :leg_quantity
+
+  def initialize(top_quantity, leg_quantity)
+    @top_quantity = top_quantity
+    @leg_quantity = leg_quantity
+  end
+
+  def number_of_sets
+    set_of_legs = @leg_quantity / LEG_QUANTITY
+    set_of_tops = @top_quantity
+
+    [set_of_tops, set_of_legs].min
+  end
+end
+
+input = "abccc"
+inventory = Inventory.new
+puts "\"#{input}\" => #{inventory.map_inventory(input)}"
+
+input = "beceadee"
+inventory = Inventory.new
+puts "\"#{input}\" => #{inventory.map_inventory(input)}"
+
+input = "eebeedebaceeceedeceacee"
+inventory = Inventory.new
+puts "\"#{input}\" => #{inventory.map_inventory(input)}"
+
+input = "zabc"
+inventory = Inventory.new
+puts "\"#{input}\" => #{inventory.map_inventory(input)}"
+
+input = "deeedeee"
+inventory = Inventory.new
+puts "\"#{input}\" => #{inventory.map_inventory(input)}"
