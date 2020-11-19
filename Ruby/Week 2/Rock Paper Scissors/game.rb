@@ -51,11 +51,21 @@ def play_game
 
   winner = compare_items(player1_selected, player2_selected)
 
-  if winner.nil?
-    play_game
-  else
-    puts "Player #{winner + 1} wins."
-  end
+  winner = play_game if winner.nil?
+
+  winner
 end
 
-play_game
+def best_out_of_three_games
+  games_won = {player1: 0, player2: 0}
+
+  until games_won[:player1] == 2 || games_won[:player2] == 2
+    winner = play_game
+    games_won[games_won.keys[winner]] += 1
+  end
+
+  winner_index = games_won.find_index{ |_k, v| v == 2 }
+  puts "Player #{winner_index + 1} wins."
+end
+
+best_out_of_three_games
