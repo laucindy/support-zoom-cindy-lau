@@ -1,0 +1,16 @@
+<h1>URL Shortener</h1>
+
+<%#= form_with do |form| %>
+  <%#= form.text_field :email %>
+  <%#= form.submit %>
+<%# end %>
+
+<%= yield if block_given? %>
+
+<form action="/" method="post">
+  <input name="authenticity_token" type="hidden" value="NrOp5bsjoLRuK8IW5+dQEYjKGUJDe7TQoZVvq95Wteg=" />
+  <label for="long_url">Enter url</label>:
+  <input id="long_url" name="url[original_url]" type="text" /><br />
+
+  <input name="submit" type="submit" value="Shorten" />
+</form>
