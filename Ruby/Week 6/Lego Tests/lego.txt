@@ -1,0 +1,95 @@
+### Describe each class and the purpose of each method.
+
+#### `LegoHat` class
+  - stores the hat size, color and style for the Lego figure.
+
+  `initialize`: initializes the hat's size, color and style, and assigns them to an instance variable
+
+  `to_s`: overrides the default `to_s` method, and outputs the string "a (size) (color) (style)" when the class instance is called
+
+#### LegoItem class
+  - stores the name and weight (in grams) of a lego item
+
+  `initialize`: initializes the lego item's name and weight, and assigns them to an instance variable
+
+  `to_s`: overrides the default `to_s` method, and outputs the string "a (weight) gram (name)" when the class instance is called
+
+  `is_heavy`: checks if the lego item is heavier than a specified threshold. Returns true if so, false otherwise.
+
+#### LegoMinifigure
+  - assembles the lego minifigure, with a name, hat, and left and right items. Can also manipulate the figure, by placing an item in either hand, or adding a hat. Can also check if the minifigure is stylish, or if it's strong.
+
+  `initialize`: initializes the lego minifigure's name, if it's wearing a hat, and if it has any items in its left or right hand
+
+  `to_s`: overrides the default `to_s` method, and outputs a string describing the minifigure when the class instance is called
+
+  `hat_words`: if the Lego minifigure is wearing a hat, output a string describing what hat it's wearing
+
+  `left_item_words`: if the Lego minifigure has an item in the left hand, output what it is holding
+
+  `right_item_words`: if the Lego minifigure has an item in the right hand, output what it is holding
+
+  `is_stylish`: check if the minifigure is stylish, based on the hat color. Outputs true or false.
+
+  `swap_hands`: swap the Lego minifigure items in the left and right hands
+
+  `wear_hat`: Put on a new hat on the minifigure
+
+  `place_in_left_hand`: place item in the minifigure's left hand
+
+  `place_in_right_hand`: place item in the minifigure's right hand
+
+  `is_strong?`: check if the Lego minifigure is holding a heavy object in either the left or right hand
+
+
+
+### Identify the expected behaviour for each method
+
+#### General
+
+  `initialize` methods: for it to initialize the instance variables
+
+  `to_s` methods: for it to output a string as defined
+
+#### LegoItem
+
+  `is_heavy`: expect a threshold as input, and expect an output of true or false
+
+#### LegoMinifigure
+
+  `is_stylish`: expect to return a boolean, based on whether it is stylish
+
+  `swap_hands`: expect the left and right items to be swapped
+
+  `wear_hat`: expect the @hat instance variable to be assigned the passed in value
+  
+  `place_in_left_hand`/`place_in_right_hand`: expect the @left_item or @right_item instance variable will be assigned to the passed in value
+
+  `is_strong?`: expect a boolean returned as to whether the item in the left hand and/or right hand is heavy
+  
+
+
+### Identify the limits of expected behaviour
+
+#### General
+
+  `initialize`: because Ruby doesn't type check, these can be anything (string, integer, etc).
+
+  `to_s`: no real issues, unless a string interpolated variable doesn't actually exist
+
+#### LegoItem
+
+  `is_heavy`: if `threshold` is not a number, then the comparision will not work properly
+
+#### LegoMinifigure
+
+  `wear_hat` / `place_in_left_hand` / `place_in_right_hand`: expect an instance of a LegoHat or LegoItem object.
+
+
+
+### Exceptional/Error cases
+
+### LegoHat
+
+  `to_s`: the `size_word` and `colour` variables do not exist (should be @size and @colour). Will throw an error
+
