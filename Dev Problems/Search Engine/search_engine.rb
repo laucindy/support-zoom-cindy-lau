@@ -7,83 +7,59 @@ class FileReader
   end
 end
 
-class SearchExact
-  def find(term:, products_list:)
-    results = []
-
-    products_list.each do |item|
-      results << item['name'] if include_term?(term: term, item_name: item["name"])
-    end
-
-    results
-  end
-
-  private
-
-  def include_term?(term:, item_name:)
-    item_name.downcase.include? term
-  end
-end
-
-class SearchAND
-  def find(term:, products_list:)
-    words_array = term.split(" ").map(&:downcase)
-    results = []
-
-    products_list.each do |item|
-      results << item["name"] if all_words_included?(words: words_array, item_name: item["name"])
-    end
-
-    results
-  end
-
-  private
-  
-  def all_words_included?(words:, item_name:)
-    words.all? { |word| item_name.downcase.include? word }
-  end
-end
-
-class SearchOR
-  def find(term:, products_list:)
-    words_array = term.split(' ').map(&:downcase)
-    results = []
-
-    products_list.each do |item|
-      results << item['name'] if at_least_one_word_included?(words: words_array, item_name: item["name"])
-    end
-
-    results
-  end
-
-  private
-
-  def at_least_one_word_included?(words:, item_name:)
-    words.any? { |word| item_name.downcase.include? word }
-  end
-end
-
 class SearchEngine
   attr_reader :products_list
+  attr_accessor :inverted_index
 
   def initialize(file_name)
     @products_list = FileReader.read_file(file_name: file_name)
+    @inverted_index = index_items()
+  end
+
+  def index_items
+    inverted_index = {}
+
+    products_list.each do |item|
+      product_name_split_into_words = item['name'].split(' ')
+
+      product_name_split_into_words.each do |word|
+        word = word.downcase!
+        inverted_index[word] ||= []
+        inverted_index[word] << item['id']
+      end
+    end
+
+    inverted_index
   end
 
   def search(term:, operator: nil)
-     search = SearchExact.new
+    results = []
+    term_split_into_words = term.split(' ')
+    matching_item_ids = inverted_index[term_split_into_words[0]]
 
-    if operator == "AND"
-      search = SearchAND.new
-    elsif operator == "OR"
-      search = SearchOR.new
+    if operator == 'AND'
+      term_split_into_words[1..-1].each do |word|
+        matching_item_ids = matching_item_ids & inverted_index[word]
+      end
+    elsif operator == 'OR'
+      term_split_into_words[1..-1].each do |word|
+        matching_item_ids << inverted_index[word]
+      end
+
+      matching_item_ids.flatten!
+      matching_item_ids.uniq!
     end
 
-    results = search.find(term: term, products_list: products_list)
+    matching_item_ids.each do |id|
+      product = products_list.find { |item| item["id"] == id }
+      results << product["name"]
+    end
+
     output_results(results)
   end
 
   def output_results(results)
+    results.sort!
     puts "#{results.size} results found: "
     results.each { |item| puts "   #{item}" }
     puts
