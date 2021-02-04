@@ -1,0 +1,22 @@
+.main__wrapper {
+  width: 75%;
+  margin: 0 auto;
+}
+
+.btn__wide button.Polaris-Button {
+  width: 100%;
+
+  & .Polaris-Button__Text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.payout_schedule .Polaris-Stack {
+  padding-bottom: 10px;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
