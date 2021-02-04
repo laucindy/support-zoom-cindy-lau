@@ -3,8 +3,6 @@ Replicates the Home and Orders pages in the Shopify admin, using [Polaris](https
 
 A demo of this can be viewed here: https://codesandbox.io/s/bold-pare-6cky5
 
-----
-
 ## Home page
 
 <details>
@@ -18,8 +16,6 @@ A demo of this can be viewed here: https://codesandbox.io/s/bold-pare-6cky5
 
 ![](https://screenshot.click/04-56-ovkhy-4o9mu.jpg)
 </details>
-
-----
 
 ## Order page
 
