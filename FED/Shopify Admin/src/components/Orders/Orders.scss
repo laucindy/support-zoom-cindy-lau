@@ -1,0 +1,42 @@
+.Polaris-ResourceList__HeaderWrapper {
+  display: none;
+}
+
+.filters__saved-btn button {
+  margin: 0 20px 0 10px;
+  width: 12rem;
+}
+
+.Polaris-Tabs__Wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.all-locations__button {
+  display: flex;
+  margin-left: auto; 
+
+  & button {
+  background: transparent;
+  border: 0;
+  border-left: 1px solid #ccc;
+  }
+}
+
+// popover for the sort button
+.Polaris-Filters-ConnectedFilterControl__AuxiliaryContainer {
+
+  span div {
+    display: inline-block;
+  }
+}
+
+.sortPopover {
+  .Polaris-ChoiceList {
+    margin: 20px 15px;
+  
+    & .Polaris-ChoiceList__Title {
+      color: rgba(109, 113, 117, 1);
+    }
+  }
+}

@@ -1,0 +1,24 @@
+.Polaris-TopBar__ContextControl {
+  display: flex;
+}
+
+.TopBar__LeftMenu {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+
+  p {
+    color: #fff;
+    margin-left: 10px;
+  }
+}
+
+.navigation__wrapper {
+  & .Polaris-Navigation__Section:last-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 1;
+  }
+}
+
